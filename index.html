@@ -162,6 +162,7 @@ line-height:1.6;
 <p>
 🔐 Você cria ou entra em uma sala usando uma senha.<br>
 🎥 Pode enviar link do YouTube ou vídeo .mp4.<br>
+📁 Agora também pode enviar vídeo da galeria.<br>
 💬 Conversa em tempo real com quem estiver na sala.<br>
 👥 Só entra quem souber a senha da sala.
 </p>
@@ -178,7 +179,6 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 </div>
 </div>
 
-
 <!-- LOGIN -->
 <div class="login hidden" id="loginBox">
 <h2>🔐 Entrar na Sala</h2>
@@ -187,7 +187,6 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 <button class="btn" id="btnEntrar">Entrar</button>
 <button class="btn btn-secondary" onclick="voltarHome()">Voltar</button>
 </div>
-
 
 <!-- SALA -->
 <div class="card hidden" id="salaBox">
@@ -198,6 +197,9 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 
 <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
 <button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
+
+<!-- ADICIONADO: GALERIA -->
+<input type="file" id="videoFile" accept="video/*" class="btn">
 
 <div class="video-box">
 <div class="video-wrapper" id="videoArea"></div>
@@ -240,8 +242,6 @@ const db=getFirestore(app);
 let salaRef=null;
 let nomeLocal="";
 
-/* NAVEGAÇÃO */
-
 window.abrirLogin=()=>{
 homeBox.classList.add("hidden");
 loginBox.classList.remove("hidden");
@@ -251,8 +251,6 @@ window.voltarHome=()=>{
 loginBox.classList.add("hidden");
 homeBox.classList.remove("hidden");
 }
-
-/* CONTADOR GLOBAL */
 
 const globalRef=doc(db,"site","online");
 
@@ -273,8 +271,6 @@ if(globalSala)globalSala.innerText="Usuários no site: "+dados.total;
 });
 
 entrarSite();
-
-/* LOGIN */
 
 btnEntrar.onclick=async()=>{
 let senha=senhaSala.value.trim();
@@ -302,8 +298,6 @@ onlineInfo.innerText="Online na sala: "+(dados.online?dados.online.length:0);
 });
 };
 
-/* CHAT */
-
 btnEnviarMsg.onclick=async()=>{
 let texto=chatInput.value.trim();
 if(!texto)return;
@@ -325,13 +319,19 @@ chatBox.scrollTop=chatBox.scrollHeight;
 notifSound.play();
 }
 
-/* VIDEO */
-
 btnEnviarVideo.onclick=async()=>{
 let link=linkInput.value.trim();
 if(!link)return;
 await updateDoc(salaRef,{video:link});
 linkInput.value="";
+};
+
+/* ADICIONADO GALERIA */
+videoFile.onchange=async(e)=>{
+const file=e.target.files[0];
+if(!file)return;
+const url=URL.createObjectURL(file);
+await updateDoc(salaRef,{video:url});
 };
 
 function carregarVideo(link){
@@ -347,7 +347,7 @@ let iframe=document.createElement("iframe");
 iframe.src="https://www.youtube.com/embed/"+id;
 iframe.allowFullscreen=true;
 videoArea.appendChild(iframe);
-}else if(link.endsWith(".mp4")){
+}else{
 let video=document.createElement("video");
 video.src=link;
 video.controls=true;
@@ -355,7 +355,6 @@ video.autoplay=true;
 videoArea.appendChild(video);
 }
 }
-
 </script>
 </body>
 </html>
