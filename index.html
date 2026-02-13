@@ -7,7 +7,6 @@
 
 <style>
 *{box-sizing:border-box;}
-
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
@@ -16,9 +15,7 @@ color:white;
 display:flex;
 justify-content:center;
 }
-
 .hidden{display:none;}
-
 .card{
 width:95%;
 max-width:700px;
@@ -28,24 +25,16 @@ padding:25px;
 border-radius:16px;
 box-shadow:0 0 25px rgba(0,0,0,0.6);
 }
-
 h1{text-align:center;margin-bottom:10px;font-size:22px;}
-
 .online{text-align:center;font-size:14px;margin-bottom:5px;color:#bbb;}
 .global-online{text-align:center;font-size:13px;margin-bottom:15px;color:#00ff88;}
-
 .creator{
 margin-top:20px;
 font-size:12px;
 color:#888;
 text-align:center;
 }
-
-.creator a{
-color:#e50914;
-text-decoration:none;
-}
-
+.creator a{color:#e50914;text-decoration:none;}
 input{
 width:100%;
 padding:14px;
@@ -56,7 +45,6 @@ color:white;
 font-size:14px;
 margin-bottom:12px;
 }
-
 .btn{
 width:100%;
 padding:14px;
@@ -68,11 +56,7 @@ font-size:14px;
 cursor:pointer;
 margin-bottom:15px;
 }
-
-.btn-secondary{
-background:#333;
-}
-
+.btn-secondary{background:#333;}
 .video-box{
 width:100%;
 background:#d9d9d9;
@@ -81,13 +65,11 @@ overflow:hidden;
 position:relative;
 margin-bottom:20px;
 }
-
 .video-wrapper{
 position:relative;
 width:100%;
 padding-top:56.25%;
 }
-
 .video-wrapper iframe,
 .video-wrapper video{
 position:absolute;
@@ -98,7 +80,6 @@ height:100%;
 border:none;
 object-fit:cover;
 }
-
 .chat{
 background:#111;
 border-radius:12px;
@@ -108,9 +89,7 @@ display:flex;
 flex-direction:column;
 margin-bottom:15px;
 }
-
 #chatBox{flex:1;overflow-y:auto;margin-bottom:10px;}
-
 .msg{
 background:#222;
 padding:8px 12px;
@@ -119,9 +98,7 @@ margin-bottom:8px;
 font-size:13px;
 word-break:break-word;
 }
-
 .msg strong{color:#e50914;}
-
 .btn-sair{
 width:100%;
 padding:12px;
@@ -132,7 +109,6 @@ border-radius:10px;
 font-size:14px;
 cursor:pointer;
 }
-
 .login, .home{
 width:95%;
 max-width:500px;
@@ -142,7 +118,6 @@ padding:30px;
 border-radius:16px;
 text-align:center;
 }
-
 .home p{
 font-size:14px;
 color:#ccc;
@@ -153,33 +128,24 @@ line-height:1.6;
 </head>
 <body>
 
-<!-- TELA INICIAL -->
 <div class="home" id="homeBox">
 <h2>🎬 Assistir Junto Privado PRO</h2>
-
 <p><strong>Como funciona?</strong></p>
-
 <p>
 🔐 Você cria ou entra em uma sala usando uma senha.<br>
 🎥 Pode enviar link do YouTube ou vídeo .mp4.<br>
-📁 Agora também pode enviar vídeo da galeria.<br>
-💬 Conversa em tempo real com quem estiver na sala.<br>
-👥 Só entra quem souber a senha da sala.
+📁 Pode enviar vídeo da galeria.<br>
+💬 Conversa em tempo real.<br>
+👥 Só entra quem souber a senha.
 </p>
-
 <button class="btn" onclick="abrirLogin()">Entrar na Sala</button>
-
-<div class="global-online" id="totalOnlineGlobal">
-Usuários no site: 0
-</div>
-
+<div class="global-online" id="totalOnlineGlobal">Usuários no site: 0</div>
 <div class="creator">
 Criador: <strong>Isac Santos</strong><br>
 Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
 </div>
 </div>
 
-<!-- LOGIN -->
 <div class="login hidden" id="loginBox">
 <h2>🔐 Entrar na Sala</h2>
 <input type="text" id="nomeUsuario" placeholder="Seu nome">
@@ -188,17 +154,13 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 <button class="btn btn-secondary" onclick="voltarHome()">Voltar</button>
 </div>
 
-<!-- SALA -->
 <div class="card hidden" id="salaBox">
-
 <h1>🎬 Sala Privada</h1>
 <div class="online" id="onlineInfo">Online na sala: 0</div>
 <div class="global-online" id="globalSala">Usuários no site: 0</div>
 
 <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
 <button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
-
-<!-- ADICIONADO: GALERIA -->
 <input type="file" id="videoFile" accept="video/*" class="btn">
 
 <div class="video-box">
@@ -218,7 +180,6 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 Criador: <strong>Isac Santos</strong> |
 Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
 </div>
-
 </div>
 
 <audio id="notifSound">
@@ -226,7 +187,6 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 </audio>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -241,24 +201,16 @@ const db=getFirestore(app);
 
 let salaRef=null;
 let nomeLocal="";
+let donoSala="";
 
-window.abrirLogin=()=>{
-homeBox.classList.add("hidden");
-loginBox.classList.remove("hidden");
-}
-
-window.voltarHome=()=>{
-loginBox.classList.add("hidden");
-homeBox.classList.remove("hidden");
-}
+window.abrirLogin=()=>{homeBox.classList.add("hidden");loginBox.classList.remove("hidden");}
+window.voltarHome=()=>{loginBox.classList.add("hidden");homeBox.classList.remove("hidden");}
 
 const globalRef=doc(db,"site","online");
 
 async function entrarSite(){
 let snap=await getDoc(globalRef);
-if(!snap.exists()){
-await setDoc(globalRef,{total:0});
-}
+if(!snap.exists()) await setDoc(globalRef,{total:0});
 await updateDoc(globalRef,{total:increment(1)});
 }
 
@@ -281,8 +233,17 @@ nomeLocal=nome;
 salaRef=doc(db,"salas",senha);
 
 let snap=await getDoc(salaRef);
+
 if(!snap.exists()){
-await setDoc(salaRef,{video:"",chat:[],online:[]});
+await setDoc(salaRef,{
+video:"",
+chat:[],
+online:[],
+dono:nomeLocal
+});
+donoSala=nomeLocal;
+}else{
+donoSala=snap.data().dono;
 }
 
 await updateDoc(salaRef,{online:arrayUnion(nomeLocal)});
@@ -292,17 +253,33 @@ salaBox.classList.remove("hidden");
 
 onSnapshot(salaRef,(docSnap)=>{
 let dados=docSnap.data();
+if(!dados)return;
+
+donoSala=dados.dono;
+
 if(dados.video)carregarVideo(dados.video);
 mostrarChat(dados.chat||[]);
 onlineInfo.innerText="Online na sala: "+(dados.online?dados.online.length:0);
+
+if(nomeLocal!==donoSala){
+btnEnviarVideo.disabled=true;
+videoFile.disabled=true;
+btnEnviarVideo.style.opacity="0.5";
+videoFile.style.opacity="0.5";
+}
 });
 };
 
 btnEnviarMsg.onclick=async()=>{
 let texto=chatInput.value.trim();
 if(!texto)return;
+
 await updateDoc(salaRef,{
-chat:arrayUnion({nome:nomeLocal,msg:texto})
+chat:arrayUnion({
+nome:nomeLocal,
+msg:texto,
+dono:(nomeLocal===donoSala)
+})
 });
 chatInput.value="";
 };
@@ -312,22 +289,27 @@ chatBox.innerHTML="";
 lista.forEach(item=>{
 let div=document.createElement("div");
 div.className="msg";
-div.innerHTML="<strong>"+item.nome+":</strong> "+item.msg;
+let nomeExibido=item.dono?"👑 "+item.nome:item.nome;
+div.innerHTML="<strong>"+nomeExibido+":</strong> "+item.msg;
 chatBox.appendChild(div);
 });
 chatBox.scrollTop=chatBox.scrollHeight;
+
+/* 🔊 SOM VOLTOU */
+notifSound.currentTime=0;
 notifSound.play();
 }
 
 btnEnviarVideo.onclick=async()=>{
+if(nomeLocal!==donoSala){alert("Só o dono pode enviar vídeo");return;}
 let link=linkInput.value.trim();
 if(!link)return;
 await updateDoc(salaRef,{video:link});
 linkInput.value="";
 };
 
-/* ADICIONADO GALERIA */
 videoFile.onchange=async(e)=>{
+if(nomeLocal!==donoSala){alert("Só o dono pode enviar vídeo");return;}
 const file=e.target.files[0];
 if(!file)return;
 const url=URL.createObjectURL(file);
@@ -356,5 +338,6 @@ videoArea.appendChild(video);
 }
 }
 </script>
+
 </body>
 </html>
