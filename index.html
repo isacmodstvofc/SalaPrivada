@@ -201,8 +201,9 @@ const db=getFirestore(app);
 
 let salaRef=null;
 let nomeLocal="";
-let ultimoVideo="";
 let donoSala="";
+let ultimoVideo="";
+let ultimoChatTamanho=0;
 
 window.abrirLogin=()=>{homeBox.classList.add("hidden");loginBox.classList.remove("hidden");}
 window.voltarHome=()=>{loginBox.classList.add("hidden");homeBox.classList.remove("hidden");}
@@ -258,7 +259,11 @@ ultimoVideo=dados.video;
 carregarVideo(dados.video);
 }
 
-mostrarChat(dados.chat||[]);
+if(dados.chat && dados.chat.length!==ultimoChatTamanho){
+ultimoChatTamanho=dados.chat.length;
+mostrarChat(dados.chat);
+}
+
 onlineInfo.innerText="Online na sala: "+(dados.online?dados.online.length:0);
 
 if(nomeLocal!==donoSala){
@@ -282,14 +287,11 @@ chatBox.innerHTML="";
 lista.forEach(item=>{
 let div=document.createElement("div");
 div.className="msg";
-
 let nomeExibido=item.nome===donoSala?"👑 "+item.nome:item.nome;
-
 div.innerHTML="<strong>"+nomeExibido+":</strong> "+item.msg;
 chatBox.appendChild(div);
 });
 chatBox.scrollTop=chatBox.scrollHeight;
-
 notifSound.currentTime=0;
 notifSound.play();
 }
