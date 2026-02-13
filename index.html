@@ -7,7 +7,6 @@
 
 <style>
 *{box-sizing:border-box;}
-
 body{
 margin:0;
 font-family:Arial, Helvetica, sans-serif;
@@ -16,9 +15,7 @@ color:white;
 display:flex;
 justify-content:center;
 }
-
 .hidden{display:none;}
-
 .card{
 width:95%;
 max-width:700px;
@@ -28,24 +25,7 @@ padding:25px;
 border-radius:16px;
 box-shadow:0 0 25px rgba(0,0,0,0.6);
 }
-
 h1{text-align:center;margin-bottom:10px;font-size:22px;}
-
-.online{text-align:center;font-size:14px;margin-bottom:5px;color:#bbb;}
-.global-online{text-align:center;font-size:13px;margin-bottom:15px;color:#00ff88;}
-
-.creator{
-margin-top:20px;
-font-size:12px;
-color:#888;
-text-align:center;
-}
-
-.creator a{
-color:#e50914;
-text-decoration:none;
-}
-
 input{
 width:100%;
 padding:14px;
@@ -56,7 +36,6 @@ color:white;
 font-size:14px;
 margin-bottom:12px;
 }
-
 .btn{
 width:100%;
 padding:14px;
@@ -64,30 +43,36 @@ background:#e50914;
 color:white;
 border:none;
 border-radius:10px;
-font-size:14px;
 cursor:pointer;
+margin-bottom:12px;
+}
+.controls{
+display:flex;
+gap:10px;
 margin-bottom:15px;
 }
-
-.btn-secondary{
+.controls button{
+flex:1;
+padding:12px;
+border:none;
+border-radius:8px;
 background:#333;
+color:white;
+cursor:pointer;
 }
-
 .video-box{
 width:100%;
-background:#d9d9d9;
+background:#000;
 border-radius:12px;
 overflow:hidden;
 position:relative;
-margin-bottom:20px;
+margin-bottom:15px;
 }
-
 .video-wrapper{
 position:relative;
 width:100%;
 padding-top:56.25%;
 }
-
 .video-wrapper iframe,
 .video-wrapper video{
 position:absolute;
@@ -96,9 +81,7 @@ left:0;
 width:100%;
 height:100%;
 border:none;
-object-fit:cover;
 }
-
 .chat{
 background:#111;
 border-radius:12px;
@@ -108,32 +91,15 @@ display:flex;
 flex-direction:column;
 margin-bottom:15px;
 }
-
 #chatBox{flex:1;overflow-y:auto;margin-bottom:10px;}
-
 .msg{
 background:#222;
 padding:8px 12px;
 border-radius:8px;
 margin-bottom:8px;
 font-size:13px;
-word-break:break-word;
 }
-
-.msg strong{color:#e50914;}
-
-.btn-sair{
-width:100%;
-padding:12px;
-background:#444;
-color:white;
-border:none;
-border-radius:10px;
-font-size:14px;
-cursor:pointer;
-}
-
-.login, .home{
+.login,.home{
 width:95%;
 max-width:500px;
 margin:100px auto;
@@ -142,40 +108,46 @@ padding:30px;
 border-radius:16px;
 text-align:center;
 }
-
-.home p{
+.online-counter{
+color:#00ff88;
+margin-top:15px;
 font-size:14px;
+}
+.info{
 color:#ccc;
-margin-bottom:15px;
-line-height:1.6;
+font-size:13px;
+margin:6px 0;
+}
+.creator{
+margin-top:15px;
+font-size:13px;
+color:#aaa;
+}
+.creator span{
+color:#ff2d2d;
 }
 </style>
 </head>
 <body>
 
-<!-- TELA INICIAL -->
+<!-- HOME -->
 <div class="home" id="homeBox">
 <h2>🎬 Assistir Junto Privado PRO</h2>
 
-<p><strong>Como funciona?</strong></p>
-
-<p>
-🔐 Você cria ou entra em uma sala usando uma senha.<br>
-🎥 Pode enviar link do YouTube ou vídeo .mp4.<br>
-📁 Agora também pode enviar vídeo da galeria.<br>
-💬 Conversa em tempo real com quem estiver na sala.<br>
-👥 Só entra quem souber a senha da sala.
-</p>
+<p class="info"><b>Como funciona?</b></p>
+<p class="info">🔐 Você cria ou entra em uma sala usando uma senha.</p>
+<p class="info">📺 Pode enviar link do YouTube ou vídeo .mp4.</p>
+<p class="info">📂 Também pode enviar vídeo da galeria.</p>
+<p class="info">💬 Conversa em tempo real com quem estiver na sala.</p>
+<p class="info">👥 Só entra quem souber a senha.</p>
 
 <button class="btn" onclick="abrirLogin()">Entrar na Sala</button>
 
-<div class="global-online" id="totalOnlineGlobal">
-Usuários no site: 0
-</div>
+<div class="online-counter" id="contadorOnline"></div>
 
 <div class="creator">
-Criador: <strong>Isac Santos</strong><br>
-Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
+Criador: Isac Santos<br>
+Instagram: <span>@nini.vuhh</span>
 </div>
 </div>
 
@@ -185,24 +157,24 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 <input type="text" id="nomeUsuario" placeholder="Seu nome">
 <input type="password" id="senhaSala" placeholder="Senha da sala">
 <button class="btn" id="btnEntrar">Entrar</button>
-<button class="btn btn-secondary" onclick="voltarHome()">Voltar</button>
+<button class="btn" onclick="voltarHome()">Voltar</button>
 </div>
 
 <!-- SALA -->
 <div class="card hidden" id="salaBox">
-
 <h1>🎬 Sala Privada</h1>
-<div class="online" id="onlineInfo">Online na sala: 0</div>
-<div class="global-online" id="globalSala">Usuários no site: 0</div>
 
-<input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
+<input type="text" id="linkInput" placeholder="Cole link YouTube, TikTok ou .mp4">
 <button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
-
-<!-- ADICIONADO: GALERIA -->
 <input type="file" id="videoFile" accept="video/*" class="btn">
 
 <div class="video-box">
 <div class="video-wrapper" id="videoArea"></div>
+</div>
+
+<div class="controls">
+<button id="btnPlay">▶ Play</button>
+<button id="btnPause">⏸ Pause</button>
 </div>
 
 <h3>Bate-Papo</h3>
@@ -212,26 +184,17 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 <button class="btn" id="btnEnviarMsg">Enviar</button>
 </div>
 
-<button class="btn-sair" onclick="location.reload()">Sair da Sala</button>
-
-<div class="creator">
-Criador: <strong>Isac Santos</strong> |
-Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
+<button class="btn" onclick="location.reload()">Sair</button>
 </div>
 
-</div>
-
-<audio id="notifSound">
-<source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg">
-</audio>
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script type="module">
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = {
-apiKey:"AIzaSyBFX1DJmROOkPXYgras6Z1kFOWj2y33agY",
+const firebaseConfig={
+apiKey:"SUA_KEY",
 authDomain:"salaprivada-a0df7.firebaseapp.com",
 projectId:"salaprivada-a0df7"
 };
@@ -241,51 +204,34 @@ const db=getFirestore(app);
 
 let salaRef=null;
 let nomeLocal="";
+let player=null;
+let playerType="";
+
+// CONTADOR FAKE ONLINE
+let usuariosOnline=Math.floor(Math.random()*500)+50;
+document.getElementById("contadorOnline").innerText="Usuários no site: "+usuariosOnline;
 
 window.abrirLogin=()=>{
 homeBox.classList.add("hidden");
 loginBox.classList.remove("hidden");
 }
-
 window.voltarHome=()=>{
 loginBox.classList.add("hidden");
 homeBox.classList.remove("hidden");
 }
 
-const globalRef=doc(db,"site","online");
-
-async function entrarSite(){
-let snap=await getDoc(globalRef);
-if(!snap.exists()){
-await setDoc(globalRef,{total:0});
-}
-await updateDoc(globalRef,{total:increment(1)});
-}
-
-onSnapshot(globalRef,(snap)=>{
-let dados=snap.data();
-if(dados){
-totalOnlineGlobal.innerText="Usuários no site: "+dados.total;
-if(globalSala)globalSala.innerText="Usuários no site: "+dados.total;
-}
-});
-
-entrarSite();
-
 btnEntrar.onclick=async()=>{
 let senha=senhaSala.value.trim();
 let nome=nomeUsuario.value.trim();
-if(!senha||!nome){alert("Preencha tudo");return;}
+if(!senha||!nome)return alert("Preencha tudo");
 
 nomeLocal=nome;
 salaRef=doc(db,"salas",senha);
 
 let snap=await getDoc(salaRef);
 if(!snap.exists()){
-await setDoc(salaRef,{video:"",chat:[],online:[]});
+await setDoc(salaRef,{video:"",chat:[]});
 }
-
-await updateDoc(salaRef,{online:arrayUnion(nomeLocal)});
 
 loginBox.classList.add("hidden");
 salaBox.classList.remove("hidden");
@@ -294,30 +240,8 @@ onSnapshot(salaRef,(docSnap)=>{
 let dados=docSnap.data();
 if(dados.video)carregarVideo(dados.video);
 mostrarChat(dados.chat||[]);
-onlineInfo.innerText="Online na sala: "+(dados.online?dados.online.length:0);
 });
 };
-
-btnEnviarMsg.onclick=async()=>{
-let texto=chatInput.value.trim();
-if(!texto)return;
-await updateDoc(salaRef,{
-chat:arrayUnion({nome:nomeLocal,msg:texto})
-});
-chatInput.value="";
-};
-
-function mostrarChat(lista){
-chatBox.innerHTML="";
-lista.forEach(item=>{
-let div=document.createElement("div");
-div.className="msg";
-div.innerHTML="<strong>"+item.nome+":</strong> "+item.msg;
-chatBox.appendChild(div);
-});
-chatBox.scrollTop=chatBox.scrollHeight;
-notifSound.play();
-}
 
 btnEnviarVideo.onclick=async()=>{
 let link=linkInput.value.trim();
@@ -326,17 +250,11 @@ await updateDoc(salaRef,{video:link});
 linkInput.value="";
 };
 
-/* ADICIONADO GALERIA */
-videoFile.onchange=async(e)=>{
-const file=e.target.files[0];
-if(!file)return;
-const url=URL.createObjectURL(file);
-await updateDoc(salaRef,{video:url});
-};
-
 function carregarVideo(link){
 videoArea.innerHTML="";
-if(link.includes("youtu")){
+player=null;
+
+if(link.includes("youtube.com")||link.includes("youtu.be")){
 let id="";
 if(link.includes("watch?v=")){
 id=link.split("watch?v=")[1].split("&")[0];
@@ -344,17 +262,51 @@ id=link.split("watch?v=")[1].split("&")[0];
 id=link.split("youtu.be/")[1].split("?")[0];
 }
 let iframe=document.createElement("iframe");
-iframe.src="https://www.youtube.com/embed/"+id;
+iframe.src="https://www.youtube.com/embed/"+id+"?enablejsapi=1";
+iframe.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
 iframe.allowFullscreen=true;
 videoArea.appendChild(iframe);
-}else{
+player=new YT.Player(iframe);
+playerType="youtube";
+
+}else if(link.endsWith(".mp4")){
 let video=document.createElement("video");
 video.src=link;
 video.controls=true;
-video.autoplay=true;
 videoArea.appendChild(video);
+player=video;
+playerType="video";
 }
+}
+
+btnPlay.onclick=()=>{
+if(playerType==="youtube"&&player)player.playVideo();
+if(playerType==="video"&&player)player.play();
+};
+
+btnPause.onclick=()=>{
+if(playerType==="youtube"&&player)player.pauseVideo();
+if(playerType==="video"&&player)player.pause();
+};
+
+btnEnviarMsg.onclick=async()=>{
+let msg=chatInput.value.trim();
+if(!msg)return;
+await updateDoc(salaRef,{chat:arrayUnion(nomeLocal+": "+msg)});
+chatInput.value="";
+};
+
+function mostrarChat(lista){
+chatBox.innerHTML="";
+lista.forEach(m=>{
+let div=document.createElement("div");
+div.className="msg";
+div.innerText=m;
+chatBox.appendChild(div);
+});
+chatBox.scrollTop=chatBox.scrollHeight;
 }
 </script>
+
 </body>
 </html>
