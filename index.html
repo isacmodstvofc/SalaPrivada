@@ -174,7 +174,7 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 <button class="btn" id="btnEnviarMsg">Enviar</button>
 </div>
 
-<button class="btn-sair" onclick="location.reload()">Sair da Sala</button>
+<button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
 
 <div class="creator">
 Criador: <strong>Isac Santos</strong> |
@@ -188,7 +188,7 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
 apiKey:"AIzaSyBFX1DJmROOkPXYgras6Z1kFOWj2y33agY",
@@ -214,6 +214,10 @@ async function entrarSite(){
 let snap=await getDoc(globalRef);
 if(!snap.exists()) await setDoc(globalRef,{total:0});
 await updateDoc(globalRef,{total:increment(1)});
+}
+
+async function sairSite(){
+await updateDoc(globalRef,{total:increment(-1)});
 }
 
 onSnapshot(globalRef,(snap)=>{
@@ -271,9 +275,40 @@ btnEnviarVideo.disabled=true;
 videoFile.disabled=true;
 btnEnviarVideo.style.opacity="0.5";
 videoFile.style.opacity="0.5";
+}else{
+btnEnviarVideo.disabled=false;
+videoFile.disabled=false;
+btnEnviarVideo.style.opacity="1";
+videoFile.style.opacity="1";
 }
 });
 };
+
+async function sairSala(){
+if(!salaRef){ location.reload(); return; }
+
+let snap=await getDoc(salaRef);
+if(!snap.exists()){ location.reload(); return; }
+
+let dados=snap.data();
+
+await updateDoc(salaRef,{
+online:arrayRemove(nomeLocal)
+});
+
+let novoSnap=await getDoc(salaRef);
+let novoDados=novoSnap.data();
+
+if(novoDados.online.length===0){
+await deleteDoc(salaRef);
+}
+else if(dados.dono===nomeLocal){
+await updateDoc(salaRef,{dono:novoDados.online[0]});
+}
+
+await sairSite();
+location.reload();
+}
 
 btnEnviarMsg.onclick=async()=>{
 let texto=chatInput.value.trim();
