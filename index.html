@@ -201,6 +201,7 @@ const db=getFirestore(app);
 
 let salaRef=null;
 let nomeLocal="";
+let ultimoVideo="";
 let donoSala="";
 
 window.abrirLogin=()=>{homeBox.classList.add("hidden");loginBox.classList.remove("hidden");}
@@ -235,12 +236,7 @@ salaRef=doc(db,"salas",senha);
 let snap=await getDoc(salaRef);
 
 if(!snap.exists()){
-await setDoc(salaRef,{
-video:"",
-chat:[],
-online:[],
-dono:nomeLocal
-});
+await setDoc(salaRef,{video:"",chat:[],online:[],dono:nomeLocal});
 donoSala=nomeLocal;
 }else{
 donoSala=snap.data().dono;
@@ -257,7 +253,11 @@ if(!dados)return;
 
 donoSala=dados.dono;
 
-if(dados.video)carregarVideo(dados.video);
+if(dados.video && dados.video!==ultimoVideo){
+ultimoVideo=dados.video;
+carregarVideo(dados.video);
+}
+
 mostrarChat(dados.chat||[]);
 onlineInfo.innerText="Online na sala: "+(dados.online?dados.online.length:0);
 
@@ -273,14 +273,7 @@ videoFile.style.opacity="0.5";
 btnEnviarMsg.onclick=async()=>{
 let texto=chatInput.value.trim();
 if(!texto)return;
-
-await updateDoc(salaRef,{
-chat:arrayUnion({
-nome:nomeLocal,
-msg:texto,
-dono:(nomeLocal===donoSala)
-})
-});
+await updateDoc(salaRef,{chat:arrayUnion({nome:nomeLocal,msg:texto})});
 chatInput.value="";
 };
 
@@ -289,13 +282,14 @@ chatBox.innerHTML="";
 lista.forEach(item=>{
 let div=document.createElement("div");
 div.className="msg";
-let nomeExibido=item.dono?"👑 "+item.nome:item.nome;
+
+let nomeExibido=item.nome===donoSala?"👑 "+item.nome:item.nome;
+
 div.innerHTML="<strong>"+nomeExibido+":</strong> "+item.msg;
 chatBox.appendChild(div);
 });
 chatBox.scrollTop=chatBox.scrollHeight;
 
-/* 🔊 SOM VOLTOU */
 notifSound.currentTime=0;
 notifSound.play();
 }
