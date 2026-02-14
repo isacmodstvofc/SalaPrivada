@@ -144,7 +144,7 @@ Vamos começar!
 
 <div class="creator">
 Criador: <strong>Isac Santos</strong><br>
-Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
+Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a>
 </div>
 </div>
 
@@ -164,8 +164,8 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 <div class="global-online" id="globalSala">Usuários no site: 66</div>
 
 <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
-<button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
-<input type="file" id="videoFile" accept="video/*">
+<button class="btn" id="btnEnviarVideo" disabled>Enviar Vídeo</button>
+<input type="file" id="videoFile" accept="video/*" disabled>
 
 <select id="selectNovoDono" class="hidden"></select>
 <button class="btn btn-secondary hidden" id="btnTransferirDono">👑 Transferir Dono</button>
@@ -198,7 +198,7 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Configuração do Firebase (agora com a sua chave de Firebase)
+// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAvGr4AMVDLtTu0OVy9wZB2t5Qt3DTBDQ8",
   authDomain: "priveflix.firebaseapp.com",
@@ -306,6 +306,7 @@ btnEntrar.onclick = async () => {
 
     onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
+    // Apenas o dono pode enviar vídeos
     if (nomeLocal !== donoSala) {
       btnEnviarVideo.disabled = true;
       videoFile.disabled = true;
@@ -316,7 +317,71 @@ btnEntrar.onclick = async () => {
   });
 };
 
-// Restante das funções...
+// Enviar vídeo
+btnEnviarVideo.onclick = async () => {
+  if (nomeLocal !== donoSala) { alert("Só o dono pode enviar vídeo"); return; }
+  let link = linkInput.value.trim();
+  if (!link) return;
+  await updateDoc(salaRef, { video: link });
+  linkInput.value = "";
+};
+
+// Enviar arquivo de vídeo
+videoFile.onchange = async (e) => {
+  if (nomeLocal !== donoSala) { alert("Só o dono pode enviar vídeo"); return; }
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  await updateDoc(salaRef, { video: url });
+};
+
+// Mostrar vídeos
+function carregarVideo(link) {
+  videoArea.innerHTML = "";
+  if (link.includes("youtu")) {
+    let id = "";
+    if (link.includes("watch?v=")) {
+      id = link.split("watch?v=")[1].split("&")[0];
+    } else {
+      id = link.split("youtu.be/")[1].split("?")[0];
+    }
+    let iframe = document.createElement("iframe");
+    iframe.src = "https://www.youtube.com/embed/" + id;
+    iframe.allowFullscreen = true;
+    videoArea.appendChild(iframe);
+  } else {
+    let video = document.createElement("video");
+    video.src = link;
+    video.controls = true;
+    video.autoplay = true;
+    videoArea.appendChild(video);
+  }
+}
+
+// Enviar mensagem no chat
+btnEnviarMsg.onclick = async () => {
+  let texto = chatInput.value.trim();
+  if (!texto) return;
+  await updateDoc(salaRef, { chat: arrayUnion({ nome: nomeLocal, msg: texto }) });
+  chatInput.value = "";
+};
+
+// Mostrar chat
+function mostrarChat(lista) {
+  chatBox.innerHTML = "";
+  lista.forEach(item => {
+    let div = document.createElement("div");
+    div.className = "msg";
+    let nomeExibido = item.nome === donoSala ? "👑 " + item.nome : item.nome;
+    div.innerHTML = "<strong>" + nomeExibido + ":</strong> " + item.msg;
+    chatBox.appendChild(div);
+  });
+  chatBox.scrollTop = chatBox.scrollHeight;
+
+  // Tocar som de notificação
+  notifSound.currentTime = 0;
+  notifSound.play();
+}
 </script>
 
 </body>
