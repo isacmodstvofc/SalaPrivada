@@ -238,11 +238,6 @@
     Usuários no site: 0
   </div>
 
-  <!-- Vídeo na tela inicial -->
-  <div class="video-box">
-    <div class="video-wrapper" id="videoArea"></div>
-  </div>
-
   <!-- Informações do Criador -->
   <div class="creator-info">
     Criado por <strong>Isac Santos</strong><br>
@@ -338,31 +333,148 @@
     }
   });
 
-  // Função para carregar o vídeo
+  btnEntrar.onclick = async () => {
+    let senha = senhaSala.value.trim();
+    let nome = nomeUsuario.value.trim();
+    if(!senha || !nome){ alert("Preencha tudo"); return; }
+
+    nomeLocal = nome;
+    salaRef = doc(db, "salas", senha);
+
+    let snap = await getDoc(salaRef);
+    if(!snap.exists()){
+      await setDoc(salaRef, {video: "", chat: [], online: [], dono: nomeLocal});
+      donoSala = nomeLocal;
+    } else {
+      donoSala = snap.data().dono;
+    }
+
+    await updateDoc(salaRef, {
+      online: arrayUnion(nomeLocal),
+      chat: arrayUnion({nome: "Sistema", msg: nomeLocal + " entrou na sala"})
+    });
+
+    loginBox.classList.add("hidden");
+    salaBox.classList.remove("hidden");
+
+    onSnapshot(salaRef, (docSnap) => {
+      let dados = docSnap.data();
+      if(!dados) return;
+
+      donoSala = dados.dono;
+
+      onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
+
+      // Atualiza o nome e a coroa
+      let nomeSalaElement = document.getElementById("nomeSala");
+      nomeSalaElement.innerHTML = donoSala;
+
+      let coronaElement = document.getElementById("corona");
+      coronaElement.innerHTML = donoSala === nomeLocal ? "👑" : "";
+
+      if(nomeLocal !== donoSala){
+        btnEnviarVideo.disabled = true;
+      } else {
+        btnEnviarVideo.disabled = false;
+      }
+
+      if(dados.chat && dados.chat.length !== ultimoChat){
+        ultimoChat = dados.chat.length;
+        mostrarChat(dados.chat);
+      }
+
+      if(dados.video && dados.video !== ultimoVideo){
+        ultimoVideo = dados.video;
+        carregarVideo(dados.video);
+      }
+    });
+  };
+
+  btnEnviarMsg.onclick = async () => {
+    let texto = chatInput.value.trim();
+    if(!texto) return;
+    await updateDoc(salaRef, {chat: arrayUnion({nome: nomeLocal, msg: texto})});
+    chatInput.value = "";
+  };
+
+  btnEnviarVideo.onclick = async () => {
+    if(nomeLocal !== donoSala){ alert("Só o dono pode enviar vídeo"); return; }
+    let link = linkInput.value.trim();
+    if(!link) return;
+    await updateDoc(salaRef, {video: link});
+    linkInput.value = "";
+  };
+
+  async function sairSala(){
+    if(!salaRef){ location.reload(); return; }
+
+    let snap = await getDoc(salaRef);
+    let dados = snap.data();
+
+    await updateDoc(salaRef, {
+      online: arrayRemove(nomeLocal),
+      chat: arrayUnion({nome: "Sistema", msg: nomeLocal + " saiu da sala"})
+    });
+
+    await sairSite();
+    location.reload();
+  }
+
+  function mostrarChat(lista){
+    chatBox.innerHTML = "";
+    lista.forEach(item => {
+      let div = document.createElement("div");
+      div.className = "msg";
+      let nomeExibido = item.nome === donoSala ? "👑 " + item.nome : item.nome;
+      div.innerHTML = "<strong>" + nomeExibido + ":</strong> " + item.msg;
+      chatBox.appendChild(div);
+    });
+    chatBox.scrollTop = chatBox.scrollHeight;
+    notifSound.currentTime = 0;
+    notifSound.play();
+  }
+
   function carregarVideo(link){
-    const videoArea = document.getElementById('videoArea');
-    videoArea.innerHTML = ''; // Limpa qualquer vídeo anterior
-    
-    // Verifica se o link é do YouTube
-    if (link.includes("youtu")) {
+    videoArea.innerHTML = "";
+    if(link.includes("youtu")){
       let id = "";
-      // Pega o ID do vídeo do link
-      if (link.includes("watch?v=")) {
+      if(link.includes("watch?v=")){
         id = link.split("watch?v=")[1].split("&")[0];
-      } else if (link.includes("youtu.be/")) {
+      } else {
         id = link.split("youtu.be/")[1].split("?")[0];
       }
-      
-      // Cria o iframe com o vídeo do YouTube
-      const iframe = document.createElement("iframe");
-      iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1`; // Adiciona autoplay ao link
+      let iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube.com/embed/" + id;
       iframe.allowFullscreen = true;
-      videoArea.appendChild(iframe); // Adiciona o iframe ao vídeo
+      videoArea.appendChild(iframe);
+    } else {
+      let video = document.createElement("video");
+      video.src = link;
+      video.controls = true;
+      video.autoplay = true;
+      videoArea.appendChild(video);
     }
   }
 
-  // Chama a função com o link do vídeo
-  carregarVideo("https://youtu.be/sX5R9yC27Bk?si=UmzG8G3YvHZruekf");
+  // Função de minimizar o chat
+  const btnMinimizarChat = document.getElementById("btnMinimizarChat");
+  const btnAbrirChat = document.getElementById("btnAbrirChat");
+
+  btnMinimizarChat.onclick = () => {
+    chatBox.style.display = "none";
+    chatInput.style.display = "none";
+    btnEnviarMsg.style.display = "none";
+    btnMinimizarChat.style.display = "none";
+    btnAbrirChat.style.display = "block";
+  };
+
+  btnAbrirChat.onclick = () => {
+    chatBox.style.display = "block";
+    chatInput.style.display = "block";
+    btnEnviarMsg.style.display = "block";
+    btnMinimizarChat.style.display = "block";
+    btnAbrirChat.style.display = "none";
+  };
 </script>
 
 </body>
