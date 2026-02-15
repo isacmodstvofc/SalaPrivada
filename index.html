@@ -188,22 +188,6 @@ input{
   cursor:pointer;
 }
 
-.play-pause-btn{
-  width:48%;
-  padding:12px;
-  background:#ff0000;
-  color:white;
-  border:none;
-  border-radius:15px;
-  font-size:16px;
-  cursor:pointer;
-  margin-top:10px;
-}
-
-.play-pause-btn:hover{
-  background:#cc0000;
-}
-
 </style>
 </head>
 <body>
@@ -253,11 +237,6 @@ input{
 
   <div class="video-box">
     <div class="video-wrapper" id="videoArea"></div>
-  </div>
-
-  <!-- Botões Play/Pause -->
-  <div class="play-pause-btn" id="btnPlayPause" onclick="togglePlayPause()" style="display:none;">
-    Play/Pause
   </div>
 
   <h3>Chat</h3>
@@ -360,10 +339,8 @@ btnEntrar.onclick = async () => {
 
     if(nomeLocal !== donoSala){
       btnEnviarVideo.disabled = true;
-      btnPlayPause.style.display = "none";
     } else {
       btnEnviarVideo.disabled = false;
-      btnPlayPause.style.display = "inline-block";
     }
 
     if(dados.chat && dados.chat.length !== ultimoChat){
