@@ -188,7 +188,20 @@
       cursor:pointer;
     }
 
-    .hidden{display:none;}
+    .header-sala{
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header-sala h1{
+      font-size: 30px;
+      margin-bottom: 5px;
+    }
+
+    .header-sala #onlineInfo{
+      font-size: 16px;
+      color: #ccc;
+    }
   </style>
 </head>
 <body>
@@ -223,8 +236,10 @@
 
 <!-- SALA -->
 <div class="card hidden" id="salaBox">
-  <h1>🎬 Sala Privada</h1>
-  <div class="online" id="onlineInfo">Online na sala: 0</div>
+  <div class="header-sala">
+    <h1 id="nomeSala">🎬 Sala - Nome da Pessoa</h1>
+    <div id="onlineInfo">Online na sala: 1</div>
+  </div>
 
   <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
   <button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
@@ -325,6 +340,10 @@
       donoSala = dados.dono;
 
       onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
+
+      // Atualiza o nome da sala e coloca a coroa no dono
+      let nomeSalaElement = document.getElementById("nomeSala");
+      nomeSalaElement.innerHTML = `🎬 Sala - ${donoSala === nomeLocal ? '👑 ' : ''}${donoSala}`;
 
       if(nomeLocal !== donoSala){
         btnEnviarVideo.disabled = true;
