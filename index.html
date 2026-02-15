@@ -99,6 +99,12 @@ font-size:13px;
 word-break:break-word;
 }
 .msg strong{color:#e50914;}
+#chatBox .msg img {
+  max-width:100%;
+  max-height:200px;
+  border-radius: 8px;
+  margin-top: 5px;
+}
 .btn-sair{
 width:100%;
 padding:12px;
@@ -168,7 +174,7 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a
 <input type="file" id="videoFile" accept="video/*" disabled>
 
 <select id="selectNovoDono" class="hidden"></select>
-<button class="btn btn-secondary hidden" id="btnTransferirDono"> Transferir Dono</button>
+<button class="btn btn-secondary hidden" id="btnTransferirDono">Transferir Dono</button>
 
 <div class="video-box">
 <div class="video-wrapper" id="videoArea"></div>
@@ -178,6 +184,7 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a
 <div class="chat">
 <div id="chatBox"></div>
 <input type="text" id="chatInput" placeholder="Mensagem">
+<input type="file" id="imageInput" accept="image/*">
 <button class="btn" id="btnEnviarMsg">Enviar</button>
 </div>
 
@@ -196,7 +203,7 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 <script type="module">
 // Importando as funções do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, deleteDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -361,9 +368,19 @@ function carregarVideo(link) {
 // Enviar mensagem no chat
 btnEnviarMsg.onclick = async () => {
   let texto = chatInput.value.trim();
-  if (!texto) return;
-  await updateDoc(salaRef, { chat: arrayUnion({ nome: nomeLocal, msg: texto }) });
+  let image = imageInput.files[0]; // Envio de imagem
+  if (!texto && !image) return;
+
+  const chatMsg = { nome: nomeLocal, msg: texto };
+
+  if (image) {
+    const imgUrl = URL.createObjectURL(image);
+    chatMsg.img = imgUrl;
+  }
+
+  await updateDoc(salaRef, { chat: arrayUnion(chatMsg) });
   chatInput.value = "";
+  imageInput.value = ""; // Limpar input de imagem
 };
 
 // Mostrar chat
@@ -374,6 +391,13 @@ function mostrarChat(lista) {
     div.className = "msg";
     let nomeExibido = item.nome === donoSala ? " " + item.nome : item.nome;
     div.innerHTML = "<strong>" + nomeExibido + ":</strong> " + item.msg;
+
+    if (item.img) {
+      let img = document.createElement("img");
+      img.src = item.img;
+      div.appendChild(img);
+    }
+
     chatBox.appendChild(div);
   });
   chatBox.scrollTop = chatBox.scrollHeight;
