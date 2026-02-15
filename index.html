@@ -276,6 +276,8 @@
     <button class="btn" id="btnEnviarVideo" onclick="carregarVideo(linkInput.value)">Enviar Vídeo</button>
     <button class="btn" id="btnMinimizarChat">Minimizar Chat</button>
     <button class="btn hidden" id="btnAbrirChat">Abrir Chat</button>
+    <!-- Botão para transferir dono -->
+    <button class="btn btn-transferir hidden" id="btnTransferirDono" onclick="transferirDono()">Transferir Dono</button>
   </div>
 
   <div class="video-box">
@@ -383,6 +385,7 @@
         btnEnviarVideo.disabled = true;
       } else {
         btnEnviarVideo.disabled = false;
+        document.getElementById("btnTransferirDono").classList.remove("hidden");
       }
 
       if(dados.chat && dados.chat.length !== ultimoChat){
@@ -461,6 +464,21 @@
       video.autoplay = true;
       videoAreaSala.appendChild(video);
     }
+  }
+
+  function transferirDono() {
+    // Confirmação para transferir a propriedade
+    let novoDono = prompt("Digite o nome do novo dono da sala:");
+    if (!novoDono) return alert("Nome inválido!");
+
+    // Atualiza o dono no Firestore
+    updateDoc(salaRef, {
+      dono: novoDono
+    }).then(() => {
+      alert(`Dono da sala transferido para ${novoDono}`);
+    }).catch(err => {
+      console.error("Erro ao transferir dono: ", err);
+    });
   }
 
   // Função de minimizar o chat
