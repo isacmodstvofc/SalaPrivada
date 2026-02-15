@@ -29,11 +29,25 @@
       box-shadow:0 0 40px rgba(0,0,0,0.7);
     }
 
+    /* Animação para a logo descer e subir suavemente */
+    @keyframes animacaoLogo {
+      0% {
+        transform: translateY(0px);  /* Posição inicial */
+      }
+      50% {
+        transform: translateY(5px);  /* Desce um pouco */
+      }
+      100% {
+        transform: translateY(0px);  /* Sobe de volta para a posição inicial */
+      }
+    }
+
     .logo{
       font-size:40px;
       font-weight:bold;
       color:#ff0000;
       margin-bottom:15px;
+      animation: animacaoLogo 1.5s ease-in-out infinite; /* Loop contínuo */
     }
 
     .sub{
