@@ -255,7 +255,7 @@
     <div id="onlineInfo">Online na sala: 1</div>
   </div>
 
-  <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
+  <input type="text" id="linkInput" placeholder="Link YouTube, TikTok, Instagram ou .mp4">
   <button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
 
   <div class="video-box">
@@ -426,23 +426,52 @@
 
   function carregarVideo(link){
     videoArea.innerHTML = "";
+    
+    // Carregar vídeos do YouTube
     if(link.includes("youtu")){
-      let id = "";
-      if(link.includes("watch?v=")){
-        id = link.split("watch?v=")[1].split("&")[0];
-      } else {
-        id = link.split("youtu.be/")[1].split("?")[0];
-      }
-      let iframe = document.createElement("iframe");
-      iframe.src = "https://www.youtube.com/embed/" + id;
-      iframe.allowFullscreen = true;
-      videoArea.appendChild(iframe);
+        let id = "";
+        if(link.includes("watch?v=")){
+            id = link.split("watch?v=")[1].split("&")[0];
+        } else {
+            id = link.split("youtu.be/")[1].split("?")[0];
+        }
+        let iframe = document.createElement("iframe");
+        iframe.src = "https://www.youtube.com/embed/" + id;
+        iframe.allowFullscreen = true;
+        videoArea.appendChild(iframe);
+    
+    // Carregar vídeos do TikTok
+    } else if(link.includes("tiktok.com")){
+        let id = link.split("/")[5];
+        let iframe = document.createElement("iframe");
+        iframe.src = `https://www.tiktok.com/embed/${id}`;
+        iframe.width = "100%";
+        iframe.height = "500px";
+        iframe.allowFullscreen = true;
+        videoArea.appendChild(iframe);
+
+    // Carregar vídeos do Instagram
+    } else if(link.includes("instagram.com")){
+        let id = link.split("/p/")[1]?.split("/")[0];
+        if (id) {
+            let iframe = document.createElement("iframe");
+            iframe.src = `https://www.instagram.com/p/${id}/embed`;
+            iframe.width = "100%";
+            iframe.height = "500px";
+            iframe.frameBorder = "0";
+            iframe.allowFullscreen = true;
+            videoArea.appendChild(iframe);
+        } else {
+            alert("Link do Instagram inválido.");
+        }
+
+    // Carregar vídeos de outras fontes, como arquivos mp4
     } else {
-      let video = document.createElement("video");
-      video.src = link;
-      video.controls = true;
-      video.autoplay = true;
-      videoArea.appendChild(video);
+        let video = document.createElement("video");
+        video.src = link;
+        video.controls = true;
+        video.autoplay = true;
+        videoArea.appendChild(video);
     }
   }
 
