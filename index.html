@@ -193,9 +193,20 @@
       margin-bottom: 20px;
     }
 
-    .header-sala h1{
-      font-size: 30px;
-      margin-bottom: 5px;
+    /* Estilo para a coroa antes do nome */
+    .header-sala .nome-com-coroa{
+      font-size: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .header-sala .corona{
+      font-size: 28px;
+      color: gold;
+      margin-right: 10px;
     }
 
     .header-sala #onlineInfo{
@@ -237,7 +248,10 @@
 <!-- SALA -->
 <div class="card hidden" id="salaBox">
   <div class="header-sala">
-    <h1 id="nomeSala">🎬 Sala - Nome da Pessoa</h1>
+    <div class="nome-com-coroa">
+      <span id="corona" class="corona"></span>
+      <span id="nomeSala">Robert</span>
+    </div>
     <div id="onlineInfo">Online na sala: 1</div>
   </div>
 
@@ -341,9 +355,12 @@
 
       onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
-      // Atualiza o nome da sala e coloca a coroa no dono
+      // Atualiza o nome e a coroa
       let nomeSalaElement = document.getElementById("nomeSala");
-      nomeSalaElement.innerHTML = `🎬 Sala - ${donoSala === nomeLocal ? '👑 ' : ''}${donoSala}`;
+      nomeSalaElement.innerHTML = donoSala;
+
+      let coronaElement = document.getElementById("corona");
+      coronaElement.innerHTML = donoSala === nomeLocal ? "👑" : "";
 
       if(nomeLocal !== donoSala){
         btnEnviarVideo.disabled = true;
