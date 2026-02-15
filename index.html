@@ -29,11 +29,25 @@
       box-shadow:0 0 40px rgba(0,0,0,0.7);
     }
 
+    /* Animação para a logo descer e subir suavemente */
+    @keyframes animacaoLogo {
+      0% {
+        transform: translateY(0px);  /* Posição inicial */
+      }
+      50% {
+        transform: translateY(5px);  /* Desce um pouco */
+      }
+      100% {
+        transform: translateY(0px);  /* Sobe de volta para a posição inicial */
+      }
+    }
+
     .logo{
       font-size:40px;
       font-weight:bold;
       color:#ff0000;
       margin-bottom:15px;
+      animation: animacaoLogo 1.5s ease-in-out infinite; /* Loop contínuo */
     }
 
     .sub{
@@ -93,6 +107,7 @@
       object-fit:cover;
     }
 
+    /* Estilo para os botões lado a lado */
     .botao-container {
       display: flex;
       justify-content: space-between;
@@ -100,9 +115,10 @@
     }
 
     .botao-container .btn {
-      width: 48%;
+      width: 48%; /* Torna os botões menores e com espaço entre eles */
     }
 
+    /* ===== LOGIN E SALA ===== */
     .hidden{display:none;}
 
     .login, .card{
@@ -124,6 +140,10 @@
       color:white;
       font-size:14px;
       margin-bottom:12px;
+    }
+
+    .btn-secondary{
+      background:#333;
     }
 
     .chat{
@@ -165,6 +185,7 @@
       margin-bottom: 20px;
     }
 
+    /* Estilo para a coroa antes do nome */
     .header-sala .nome-com-coroa{
       font-size: 28px;
       display: flex;
@@ -192,7 +213,7 @@
     }
 
     .creator-info a{
-      color: #800080; 
+      color: #800080; /* Cor roxa */
       text-decoration: none;
     }
 
@@ -200,6 +221,7 @@
       text-decoration: underline;
     }
 
+    /* Estilo para o modal */
     #transferirDonoModal {
       display: none;
       position: fixed;
@@ -243,23 +265,35 @@
 </head>
 <body>
 
+<!-- HOME -->
 <div class="home" id="homeBox">
   <div class="logo">LOVEZIN</div>
   <div class="sub">Como funciona?</div>
-  <p>🎬 Entre em um mundo de vídeos privados juntos!💞<br><br>🔐 Crie ou entre em uma sala usando uma senha.<br> Só quem souber entra!</p>
+  <p>
+    🎬 Entre em um mundo de vídeos privados juntos!💞<br><br>
+    🔐 Crie ou entre em uma sala usando uma senha.<br>
+    Só quem souber entra!
+  </p>
   <button class="btn" onclick="abrirLogin()">Entrar na Sala</button>
-  <div class="global-online" id="totalOnlineGlobal">Usuários no site: 0</div>
+  <div class="global-online" id="totalOnlineGlobal">
+    Usuários no site: 0
+  </div>
+  
+  <!-- Vídeo na tela inicial -->
   <div class="video-box">
     <div class="video-wrapper" id="videoAreaHome">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/sX5R9yC27Bk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
+
+  <!-- Informações do Criador -->
   <div class="creator-info">
     Criado por <strong>Isac Santos</strong><br>
     Instagram: <a href="https://www.instagram.com/lovezin.vuh/" target="_blank">@lovezin.vuh</a>
   </div>
 </div>
 
+<!-- LOGIN -->
 <div class="login hidden" id="loginBox">
   <h2>🔐 Entrar na Sala</h2>
   <input type="text" id="nomeUsuario" placeholder="Seu nome">
@@ -268,6 +302,7 @@
   <button class="btn btn-secondary" onclick="voltarHome()">Voltar</button>
 </div>
 
+<!-- SALA -->
 <div class="card hidden" id="salaBox">
   <div class="header-sala">
     <div class="nome-com-coroa">
@@ -285,7 +320,7 @@
   </div>
 
   <div class="video-box">
-    <div class="video-wrapper" id="videoAreaSala"></div> 
+    <div class="video-wrapper" id="videoAreaSala"></div> <!-- Vídeo exclusivo para a sala -->
   </div>
 
   <h3>Chat</h3>
@@ -295,10 +330,10 @@
     <button class="btn" id="btnEnviarMsg">Enviar</button>
   </div>
 
-  <button class="btn" id="btnTransferirDono" onclick="abrirModalTransferirDono()">Transferir Dono</button>
   <button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
 </div>
 
+<!-- Modal de Transferir Dono -->
 <div id="transferirDonoModal">
   <div class="modal-content">
     <h2>Escolha um novo dono:</h2>
@@ -387,6 +422,7 @@
 
       onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
+      // Atualiza o nome e a coroa
       let nomeSalaElement = document.getElementById("nomeSala");
       nomeSalaElement.innerHTML = donoSala;
 
@@ -456,7 +492,7 @@
   }
 
   function carregarVideo(link){
-    videoAreaSala.innerHTML = ""; 
+    videoAreaSala.innerHTML = ""; // Limpar vídeo existente
     if(link.includes("youtu")){
       let id = "";
       if(link.includes("watch?v=")){
@@ -496,36 +532,6 @@
     btnMinimizarChat.style.display = "block";
     btnAbrirChat.style.display = "none";
   };
-
-  function abrirModalTransferirDono() {
-    transferirDonoModal.style.display = "flex";
-    listarUsuariosOnline();
-  }
-
-  function listarUsuariosOnline() {
-    let usuariosList = document.getElementById("usuariosOnlineList");
-    usuariosList.innerHTML = "";
-    const usuariosOnline = document.querySelectorAll(".online");
-
-    usuariosOnline.forEach(usuario => {
-      let listItem = document.createElement("li");
-      listItem.textContent = usuario.textContent;
-      listItem.onclick = () => transferirDono(usuario.textContent);
-      usuariosList.appendChild(listItem);
-    });
-  }
-
-  function transferirDono(novoDono) {
-    updateDoc(salaRef, { dono: novoDono }).then(() => {
-      donoSala = novoDono;
-      nomeSala.innerText = donoSala;
-      fecharModal();
-    });
-  }
-
-  function fecharModal() {
-    transferirDonoModal.style.display = "none";
-  }
 </script>
 
 </body>
