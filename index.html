@@ -169,9 +169,6 @@
   <div class="online" id="onlineInfo">Online na sala: 0</div>
   <div class="global-online" id="globalSala">Usuários no site: 66</div>
 
-  <h3>Participantes Online</h3>
-  <div id="listaOnline"></div>
-
   <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
   <button class="btn" id="btnEnviarVideo" disabled>Enviar Vídeo</button>
 
@@ -184,9 +181,9 @@
     <div id="chatBox"></div>
     <input type="text" id="chatInput" placeholder="Mensagem">
     <button class="btn" id="btnEnviarMsg">Enviar</button>
+    <!-- Botão Transferir abaixo do botão de Enviar -->
+    <button class="btn" id="btnTransferir" style="display:none;">Transferir Dono</button>
   </div>
-
-  <button class="btn hidden" id="btnTransferirDono" onclick="mostrarListaParticipantes()">Transferir Dono</button>
 
   <button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
 
@@ -194,6 +191,7 @@
     Criador: <strong>Isac Santos</strong> |
     Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
   </div>
+
 </div>
 
 <audio id="notifSound">
@@ -203,7 +201,7 @@
 <script type="module">
 // Importando as funções do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -275,14 +273,16 @@ btnEntrar.onclick = async () => {
   loginBox.classList.add("hidden");
   salaBox.classList.remove("hidden");
 
-  // Não exibir botão de "Transferir Dono" imediatamente
-  btnTransferirDono.classList.add("hidden");
-
   onSnapshot(salaRef, (docSnap) => {
     let dados = docSnap.data();
     if (!dados) return;
 
     donoSala = dados.dono;
+
+    // Mostrar o botão de transferir apenas para o dono da sala
+    if (nomeLocal === donoSala) {
+      btnTransferir.style.display = "block";
+    }
 
     if (dados.video && dados.video !== ultimoVideo) {
       ultimoVideo = dados.video;
@@ -295,56 +295,39 @@ btnEntrar.onclick = async () => {
     }
 
     onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
-
-    // Exibir lista de participantes online
-    listaOnline.innerHTML = '';
-    dados.online.forEach((usuario) => {
-      let usuarioDiv = document.createElement("div");
-      usuarioDiv.className = "usuario";
-      usuarioDiv.innerHTML = usuario;
-      usuarioDiv.onclick = () => transferirDono(usuario);
-      listaOnline.appendChild(usuarioDiv);
-    });
-
-    // Exibe o botão de "Transferir Dono" apenas se mais de 1 pessoa estiver online
-    if (dados.online.length > 1) {
-      btnTransferirDono.classList.remove("hidden");
-    }
-    
-    // Apenas o dono pode enviar vídeos
-    if (nomeLocal !== donoSala) {
-      btnEnviarVideo.disabled = true;
-    } else {
-      btnEnviarVideo.disabled = false;
-    }
   });
 };
 
-// Transferir Dono
-function transferirDono(novoDono) {
+// Evento para o botão de Transferir
+btnTransferir.onclick = async () => {
   if (nomeLocal !== donoSala) {
-    alert("Você não é o dono da sala");
+    alert("Somente o dono pode transferir a sala");
     return;
   }
 
-  // Verifica se o novo dono está online na sala
-  if (novoDono) {
-    updateDoc(salaRef, { dono: novoDono });
-    donoSala = novoDono;
-    alert("Agora " + novoDono + " é o dono da sala");
-  }
-}
+  // Exibe a lista de usuários online para o dono escolher
+  let onlineUsuarios = salaRef.data().online;
+  let usuariosList = onlineUsuarios.filter(usuario => usuario !== nomeLocal);
 
-// Enviar vídeo
-btnEnviarVideo.onclick = async () => {
-  if (nomeLocal !== donoSala) { alert("Só o dono pode enviar vídeo"); return; }
-  let link = linkInput.value.trim();
-  if (!link) return;
-  await updateDoc(salaRef, { video: link });
-  linkInput.value = "";
+  // Cria uma lista de usuários com números para o dono escolher
+  let listaUsuarios = usuariosList.map((usuario, index) => `${index + 1}. ${usuario}`).join("\n");
+  let escolha = prompt(`Escolha o novo dono da sala:\n\n${listaUsuarios}`);
+  
+  let escolhidoIndex = parseInt(escolha) - 1;
+  if (isNaN(escolhidoIndex) || escolhidoIndex < 0 || escolhidoIndex >= usuariosList.length) {
+    alert("Escolha inválida");
+    return;
+  }
+
+  let novoDono = usuariosList[escolhidoIndex];
+
+  await updateDoc(salaRef, { dono: novoDono });
+
+  donoSala = novoDono;
+  alert(`Dono da sala transferido para ${novoDono}`);
 };
 
-// Mostrar vídeos
+// Função para carregar o vídeo
 function carregarVideo(link) {
   videoArea.innerHTML = "";
   if (link.includes("youtu")) {
