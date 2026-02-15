@@ -220,6 +220,47 @@
     .creator-info a:hover{
       text-decoration: underline;
     }
+
+    /* Estilo para o modal */
+    #transferirDonoModal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #222;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      color: white;
+      width: 80%;
+      max-width: 400px;
+    }
+
+    #usuariosOnlineList {
+      list-style: none;
+      padding: 0;
+    }
+
+    #usuariosOnlineList li {
+      margin: 8px 0;
+      padding: 8px;
+      background: #333;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #usuariosOnlineList li:hover {
+      background: #555;
+    }
   </style>
 </head>
 <body>
@@ -277,7 +318,7 @@
     <button class="btn" id="btnMinimizarChat">Minimizar Chat</button>
     <button class="btn hidden" id="btnAbrirChat">Abrir Chat</button>
     <!-- Botão para transferir dono -->
-    <button class="btn btn-transferir hidden" id="btnTransferirDono" onclick="transferirDono()">Transferir Dono</button>
+    <button class="btn btn-transferir hidden" id="btnTransferirDono" onclick="abrirListaTransferirDono()">Transferir Dono</button>
   </div>
 
   <div class="video-box">
@@ -292,6 +333,15 @@
   </div>
 
   <button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
+</div>
+
+<!-- Modal de Transferir Dono -->
+<div id="transferirDonoModal">
+  <div class="modal-content">
+    <h2>Escolha um novo dono:</h2>
+    <ul id="usuariosOnlineList"></ul>
+    <button class="btn" onclick="fecharModal()">Cancelar</button>
+  </div>
 </div>
 
 <audio id="notifSound">
@@ -466,11 +516,35 @@
     }
   }
 
-  function transferirDono() {
-    // Confirmação para transferir a propriedade
-    let novoDono = prompt("Digite o nome do novo dono da sala:");
-    if (!novoDono) return alert("Nome inválido!");
+  function abrirListaTransferirDono(){
+    // Monitorando usuários online na sala
+    onSnapshot(salaRef, (docSnap) => {
+      let dados = docSnap.data();
+      if(dados && dados.online){
+        let usuariosOnlineList = document.getElementById("usuariosOnlineList");
+        usuariosOnlineList.innerHTML = "";
 
+        dados.online.forEach(usuario => {
+          let listItem = document.createElement("li");
+          listItem.textContent = usuario;
+          listItem.onclick = () => {
+            transferirDono(usuario);
+            fecharModal();
+          };
+          usuariosOnlineList.appendChild(listItem);
+        });
+      }
+    });
+
+    // Exibe o modal
+    document.getElementById("transferirDonoModal").classList.remove("hidden");
+  }
+
+  function fecharModal(){
+    document.getElementById("transferirDonoModal").classList.add("hidden");
+  }
+
+  function transferirDono(novoDono) {
     // Atualiza o dono no Firestore
     updateDoc(salaRef, {
       dono: novoDono
