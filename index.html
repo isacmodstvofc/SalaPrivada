@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> PRIVE</title>
+<title>ðŸŽ¥ PRIVE</title>
 
 <style>
 *{box-sizing:border-box;}
@@ -136,17 +136,17 @@ line-height:1.6;
 
 <!-- HOME -->
 <div class="home" id="homeBox">
-<h2> PRIVE</h2>
+<h2>ðŸŽ¥ PRIVE</h2>
 
 <p><strong>Seja Bem-Vindo!</strong></p>
 <p>
-Estamos felizes em ter você aqui!<br>
-Agora, você pode criar ou entrar em salas exclusivas, assistir vídeos com seus amigos e conversar em tempo real.<br>
-Vamos começar!
+Estamos felizes em ter vocÃª aqui!<br>
+Agora, vocÃª pode criar ou entrar em salas exclusivas, assistir vÃ­deos com seus amigos e conversar em tempo real.<br>
+Vamos comeÃ§ar!
 </p>
 
 <button class="btn" onclick="abrirLogin()">Entrar</button>
-<div class="global-online" id="totalOnlineGlobal">Usuários no site: 66</div>
+<div class="global-online" id="totalOnlineGlobal">UsuÃ¡rios no site: 66</div>
 
 <div class="creator">
 Criador: <strong>Isac Santos</strong><br>
@@ -165,16 +165,12 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a
 
 <!-- SALA -->
 <div class="card hidden" id="salaBox">
-<h1> Sala Privada</h1>
+<h1>ðŸŽ¥ Sala Privada</h1>
 <div class="online" id="onlineInfo">Online na sala: 0</div>
-<div class="global-online" id="globalSala">Usuários no site: 66</div>
+<div class="global-online" id="globalSala">UsuÃ¡rios no site: 66</div>
 
 <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
-<button class="btn" id="btnEnviarVideo" disabled>Enviar Vídeo</button>
-<input type="file" id="videoFile" accept="video/*" disabled>
-
-<select id="selectNovoDono" class="hidden"></select>
-<button class="btn btn-secondary hidden" id="btnTransferirDono">Transferir Dono</button>
+<button class="btn" id="btnEnviarVideo" disabled>Enviar VÃ­deo</button>
 
 <div class="video-box">
 <div class="video-wrapper" id="videoArea"></div>
@@ -201,11 +197,11 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh<
 </audio>
 
 <script type="module">
-// Importando as funções do Firebase
+// Importando as funÃ§Ãµes do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Configuração do Firebase
+// ConfiguraÃ§Ã£o do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAvGr4AMVDLtTu0OVy9wZB2t5Qt3DTBDQ8",
   authDomain: "priveflix.firebaseapp.com",
@@ -233,7 +229,7 @@ const globalRef = doc(db, "site", "online");
 
 async function entrarSite() {
   let snap = await getDoc(globalRef);
-  if (!snap.exists()) await setDoc(globalRef, { total: 66 }); // Usuários no site inicializados como 66
+  if (!snap.exists()) await setDoc(globalRef, { total: 66 }); // UsuÃ¡rios no site inicializados como 66
   await updateDoc(globalRef, { total: increment(1) });
 }
 
@@ -241,16 +237,16 @@ async function sairSite() { await updateDoc(globalRef, { total: increment(-1) })
 
 entrarSite();
 
-// Atualização do número de usuários online
+// AtualizaÃ§Ã£o do nÃºmero de usuÃ¡rios online
 onSnapshot(globalRef, (snap) => {
   let d = snap.data();
   if (d) {
-    totalOnlineGlobal.innerText = "Usuários no site: " + d.total;
-    if (globalSala) globalSala.innerText = "Usuários no site: " + d.total;
+    totalOnlineGlobal.innerText = "UsuÃ¡rios no site: " + d.total;
+    if (globalSala) globalSala.innerText = "UsuÃ¡rios no site: " + d.total;
   }
 });
 
-// Ações de entrada, saída, e atualização das salas
+// AÃ§Ãµes de entrada, saÃ­da, e atualizaÃ§Ã£o das salas
 btnEntrar.onclick = async () => {
   let senha = senhaSala.value.trim();
   let nome = nomeUsuario.value.trim();
@@ -281,26 +277,6 @@ btnEntrar.onclick = async () => {
 
     donoSala = dados.dono;
 
-    selectNovoDono.innerHTML = "";
-    if (dados.online) {
-      dados.online.forEach(user => {
-        if (user !== nomeLocal) {
-          let opt = document.createElement("option");
-          opt.value = user;
-          opt.textContent = user;
-          selectNovoDono.appendChild(opt);
-        }
-      });
-    }
-
-    if (nomeLocal === donoSala && dados.online.length > 1) {
-      selectNovoDono.classList.remove("hidden");
-      btnTransferirDono.classList.remove("hidden");
-    } else {
-      selectNovoDono.classList.add("hidden");
-      btnTransferirDono.classList.add("hidden");
-    }
-
     if (dados.video && dados.video !== ultimoVideo) {
       ultimoVideo = dados.video;
       carregarVideo(dados.video);
@@ -313,36 +289,25 @@ btnEntrar.onclick = async () => {
 
     onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
-    // Apenas o dono pode enviar vídeos
+    // Apenas o dono pode enviar vÃ­deos
     if (nomeLocal !== donoSala) {
       btnEnviarVideo.disabled = true;
-      videoFile.disabled = true;
     } else {
       btnEnviarVideo.disabled = false;
-      videoFile.disabled = false;
     }
   });
 };
 
-// Enviar vídeo
+// Enviar vÃ­deo
 btnEnviarVideo.onclick = async () => {
-  if (nomeLocal !== donoSala) { alert("Só o dono pode enviar vídeo"); return; }
+  if (nomeLocal !== donoSala) { alert("SÃ³ o dono pode enviar vÃ­deo"); return; }
   let link = linkInput.value.trim();
   if (!link) return;
   await updateDoc(salaRef, { video: link });
   linkInput.value = "";
 };
 
-// Enviar arquivo de vídeo
-videoFile.onchange = async (e) => {
-  if (nomeLocal !== donoSala) { alert("Só o dono pode enviar vídeo"); return; }
-  const file = e.target.files[0];
-  if (!file) return;
-  const url = URL.createObjectURL(file);
-  await updateDoc(salaRef, { video: url });
-};
-
-// Mostrar vídeos
+// Mostrar vÃ­deos
 function carregarVideo(link) {
   videoArea.innerHTML = "";
   if (link.includes("youtu")) {
@@ -389,7 +354,7 @@ function mostrarChat(lista) {
   lista.forEach(item => {
     let div = document.createElement("div");
     div.className = "msg";
-    let nomeExibido = item.nome === donoSala ? " " + item.nome : item.nome;
+    let nomeExibido = item.nome === donoSala ? "ðŸ‘‘ " + item.nome : item.nome;
     div.innerHTML = "<strong>" + nomeExibido + ":</strong> " + item.msg;
 
     if (item.img) {
@@ -402,7 +367,7 @@ function mostrarChat(lista) {
   });
   chatBox.scrollTop = chatBox.scrollHeight;
 
-  // Tocar som de notificação
+  // Tocar som de notificaÃ§Ã£o
   notifSound.currentTime = 0;
   notifSound.play();
 }
