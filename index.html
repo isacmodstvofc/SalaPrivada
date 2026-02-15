@@ -7,260 +7,31 @@
 
   <style>
     *{box-sizing:border-box;}
-
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,#0f0f0f,#000);
-      color:white;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      min-height:100vh;
-    }
-
-    .home{
-      width:95%;
-      max-width:500px;
-      background:#111;
-      padding:35px 25px;
-      border-radius:20px;
-      text-align:center;
-      box-shadow:0 0 40px rgba(0,0,0,0.7);
-    }
-
-    /* Animação para a logo descer e subir suavemente */
-    @keyframes animacaoLogo {
-      0% {
-        transform: translateY(0px);  /* Posição inicial */
-      }
-      50% {
-        transform: translateY(5px);  /* Desce um pouco */
-      }
-      100% {
-        transform: translateY(0px);  /* Sobe de volta para a posição inicial */
-      }
-    }
-
-    .logo{
-      font-size:40px;
-      font-weight:bold;
-      color:#ff0000;
-      margin-bottom:15px;
-      animation: animacaoLogo 1.5s ease-in-out infinite; /* Loop contínuo */
-    }
-
-    .sub{
-      color:#00ff88;
-      font-size:20px;
-      margin-bottom:20px;
-      font-weight:bold;
-    }
-
-    .btn{
-      width:100%;
-      padding:16px;
-      background:#ff0000;
-      color:white;
-      border:none;
-      border-radius:15px;
-      font-size:16px;
-      cursor:pointer;
-      margin-bottom:20px;
-      transition:0.3s;
-    }
-
-    .btn:hover{
-      background:#cc0000;
-      transform:scale(1.03);
-    }
-
-    .global-online{
-      color:#00ff88;
-      font-size:15px;
-      margin-top:10px;
-    }
-
-    .video-box{
-      width:100%;
-      background:#d9d9d9;
-      border-radius:12px;
-      overflow:hidden;
-      position:relative;
-      margin-bottom:20px;
-    }
-
-    .video-wrapper{
-      position:relative;
-      width:100%;
-      padding-top:56.25%;
-    }
-
-    .video-wrapper iframe,
-    .video-wrapper video{
-      position:absolute;
-      top:0;
-      left:0;
-      width:100%;
-      height:100%;
-      border:none;
-      object-fit:cover;
-    }
-
-    /* Estilo para os botões lado a lado */
-    .botao-container {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .botao-container .btn {
-      width: 48%; /* Torna os botões menores e com espaço entre eles */
-    }
-
-    /* ===== LOGIN E SALA ===== */
+    body{margin:0;font-family:Arial, Helvetica, sans-serif;background:linear-gradient(180deg,#0f0f0f,#000);color:white;display:flex;justify-content:center;align-items:center;min-height:100vh;}
+    .home{width:95%;max-width:500px;background:#111;padding:35px 25px;border-radius:20px;text-align:center;box-shadow:0 0 40px rgba(0,0,0,0.7);}
+    .logo{font-size:40px;font-weight:bold;color:#ff0000;margin-bottom:15px;}
+    .sub{color:#00ff88;font-size:20px;margin-bottom:20px;font-weight:bold;}
+    .btn{width:100%;padding:16px;background:#ff0000;color:white;border:none;border-radius:15px;font-size:16px;cursor:pointer;margin-bottom:20px;transition:0.3s;}
+    .btn:hover{background:#cc0000;transform:scale(1.03);}
+    .global-online{color:#00ff88;font-size:15px;margin-top:10px;}
+    .video-box{width:100%;background:#d9d9d9;border-radius:12px;overflow:hidden;position:relative;margin-bottom:20px;}
+    .video-wrapper{position:relative;width:100%;padding-top:56.25%;}
+    .video-wrapper iframe,.video-wrapper video{position:absolute;top:0;left:0;width:100%;height:100%;border:none;object-fit:cover;}
+    .botao-container {display: flex;justify-content: space-between;gap: 10px;}
+    .botao-container .btn {width: 48%;}
     .hidden{display:none;}
-
-    .login, .card{
-      width:95%;
-      max-width:600px;
-      background:#181818;
-      padding:25px;
-      border-radius:16px;
-      text-align:center;
-      box-shadow:0 0 25px rgba(0,0,0,0.6);
-    }
-
-    input{
-      width:100%;
-      padding:14px;
-      border:none;
-      border-radius:10px;
-      background:#2a2a2a;
-      color:white;
-      font-size:14px;
-      margin-bottom:12px;
-    }
-
-    .btn-secondary{
-      background:#333;
-    }
-
-    .chat{
-      background:#111;
-      border-radius:12px;
-      padding:15px;
-      max-height:280px;
-      display:flex;
-      flex-direction:column;
-      margin-bottom:15px;
-    }
-
+    .login, .card{width:95%;max-width:600px;background:#181818;padding:25px;border-radius:16px;text-align:center;box-shadow:0 0 25px rgba(0,0,0,0.6);}
+    input{width:100%;padding:14px;border:none;border-radius:10px;background:#2a2a2a;color:white;font-size:14px;margin-bottom:12px;}
+    .chat{background:#111;border-radius:12px;padding:15px;max-height:280px;display:flex;flex-direction:column;margin-bottom:15px;}
     #chatBox{flex:1;overflow-y:auto;margin-bottom:10px;}
-
-    .msg{
-      background:#222;
-      padding:8px 12px;
-      border-radius:8px;
-      margin-bottom:8px;
-      font-size:13px;
-      word-break:break-word;
-    }
-
+    .msg{background:#222;padding:8px 12px;border-radius:8px;margin-bottom:8px;font-size:13px;word-break:break-word;}
     .msg strong{color:#e50914;}
-
-    .btn-sair{
-      width:100%;
-      padding:12px;
-      background:#444;
-      color:white;
-      border:none;
-      border-radius:10px;
-      font-size:14px;
-      cursor:pointer;
-    }
-
-    .header-sala{
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    /* Estilo para a coroa antes do nome */
-    .header-sala .nome-com-coroa{
-      font-size: 28px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .header-sala .corona{
-      font-size: 28px;
-      color: gold;
-      margin-right: 10px;
-    }
-
-    .header-sala #onlineInfo{
-      font-size: 16px;
-      color: #ccc;
-    }
-
-    .creator-info{
-      margin-top: 20px;
-      font-size: 14px;
-      color: #ccc;
-    }
-
-    .creator-info a{
-      color: #800080; /* Cor roxa */
-      text-decoration: none;
-    }
-
-    .creator-info a:hover{
-      text-decoration: underline;
-    }
-
-    /* Estilo para o modal */
-    #transferirDonoModal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: #222;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      color: white;
-      width: 80%;
-      max-width: 400px;
-    }
-
-    #usuariosOnlineList {
-      list-style: none;
-      padding: 0;
-    }
-
-    #usuariosOnlineList li {
-      margin: 8px 0;
-      padding: 8px;
-      background: #333;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    #usuariosOnlineList li:hover {
-      background: #555;
-    }
+    .btn-sair{width:100%;padding:12px;background:#444;color:white;border:none;border-radius:10px;font-size:14px;cursor:pointer;}
+    #transferirDonoModal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;}
+    .modal-content{background:#222;padding:20px;border-radius:12px;text-align:center;color:white;width:80%;max-width:400px;}
+    #usuariosOnlineList{list-style:none;padding:0;}
+    #usuariosOnlineList li{margin:8px 0;padding:8px;background:#333;border-radius:6px;cursor:pointer;transition:background 0.3s;}
+    #usuariosOnlineList li:hover{background:#555;}
   </style>
 </head>
 <body>
@@ -278,7 +49,7 @@
   <div class="global-online" id="totalOnlineGlobal">
     Usuários no site: 0
   </div>
-  
+
   <!-- Vídeo na tela inicial -->
   <div class="video-box">
     <div class="video-wrapper" id="videoAreaHome">
@@ -317,8 +88,7 @@
     <button class="btn" id="btnEnviarVideo" onclick="carregarVideo(linkInput.value)">Enviar Vídeo</button>
     <button class="btn" id="btnMinimizarChat">Minimizar Chat</button>
     <button class="btn hidden" id="btnAbrirChat">Abrir Chat</button>
-    <!-- Botão para transferir dono -->
-    <button class="btn btn-transferir hidden" id="btnTransferirDono" onclick="abrirListaTransferirDono()">Transferir Dono</button>
+    <button class="btn" id="btnVerParticipantes" onclick="verParticipantes()">Ver Participantes</button>
   </div>
 
   <div class="video-box">
@@ -335,12 +105,12 @@
   <button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
 </div>
 
-<!-- Modal de Transferir Dono -->
+<!-- Modal de Participantes -->
 <div id="transferirDonoModal">
   <div class="modal-content">
-    <h2>Escolha um novo dono:</h2>
+    <h2>Participantes da Sala:</h2>
     <ul id="usuariosOnlineList"></ul>
-    <button class="btn" onclick="fecharModal()">Cancelar</button>
+    <button class="btn" onclick="fecharModal()">Fechar</button>
   </div>
 </div>
 
@@ -424,7 +194,6 @@
 
       onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
-      // Atualiza o nome e a coroa
       let nomeSalaElement = document.getElementById("nomeSala");
       nomeSalaElement.innerHTML = donoSala;
 
@@ -435,7 +204,6 @@
         btnEnviarVideo.disabled = true;
       } else {
         btnEnviarVideo.disabled = false;
-        document.getElementById("btnTransferirDono").classList.remove("hidden");
       }
 
       if(dados.chat && dados.chat.length !== ultimoChat){
@@ -495,7 +263,7 @@
   }
 
   function carregarVideo(link){
-    videoAreaSala.innerHTML = ""; // Limpar vídeo existente
+    videoAreaSala.innerHTML = "";
     if(link.includes("youtu")){
       let id = "";
       if(link.includes("watch?v=")){
@@ -516,49 +284,35 @@
     }
   }
 
-  function abrirListaTransferirDono(){
-    // Monitorando usuários online na sala
-    onSnapshot(salaRef, (docSnap) => {
-      let dados = docSnap.data();
-      if(dados && dados.online){
-        let usuariosOnlineList = document.getElementById("usuariosOnlineList");
-        usuariosOnlineList.innerHTML = "";
+  async function verParticipantes(){
+    if(nomeLocal !== donoSala) {
+      alert("Somente o dono pode ver a lista de participantes.");
+      return;
+    }
 
-        dados.online.forEach(usuario => {
-          let listItem = document.createElement("li");
-          listItem.textContent = usuario;
-          listItem.onclick = () => {
-            transferirDono(usuario);
-            fecharModal();
-          };
-          usuariosOnlineList.appendChild(listItem);
-        });
-      }
+    let snap = await getDoc(salaRef);
+    if (!snap.exists()) return;
+
+    let dados = snap.data();
+    let listaParticipantes = dados.online || [];
+
+    let participantesList = document.getElementById("usuariosOnlineList");
+    participantesList.innerHTML = "";
+
+    listaParticipantes.forEach(participante => {
+      let li = document.createElement("li");
+      li.innerText = participante;
+      participantesList.appendChild(li);
     });
 
-    // Exibe o modal
-    document.getElementById("transferirDonoModal").classList.remove("hidden");
+    document.getElementById("transferirDonoModal").style.display = "flex";
   }
 
   function fecharModal(){
-    document.getElementById("transferirDonoModal").classList.add("hidden");
+    document.getElementById("transferirDonoModal").style.display = "none";
   }
 
-  function transferirDono(novoDono) {
-    // Atualiza o dono no Firestore
-    updateDoc(salaRef, {
-      dono: novoDono
-    }).then(() => {
-      alert(`Dono da sala transferido para ${novoDono}`);
-    }).catch(err => {
-      console.error("Erro ao transferir dono: ", err);
-    });
-  }
-
-  // Função de minimizar o chat
-  const btnMinimizarChat = document.getElementById("btnMinimizarChat");
-  const btnAbrirChat = document.getElementById("btnAbrirChat");
-
+  // Minimizar/abrir chat
   btnMinimizarChat.onclick = () => {
     chatBox.style.display = "none";
     chatInput.style.display = "none";
