@@ -1,203 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎥 PRIVE</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎥 PRIVE</title>
 
-<style>
-*{box-sizing:border-box;}
-body{
-margin:0;
-font-family:Arial, Helvetica, sans-serif;
-background:#0f0f0f;
-color:white;
-display:flex;
-justify-content:center;
-}
-.hidden{display:none;}
-.card{
-width:95%;
-max-width:700px;
-margin:40px auto;
-background:#181818;
-padding:25px;
-border-radius:16px;
-box-shadow:0 0 25px rgba(0,0,0,0.6);
-}
-h1{text-align:center;margin-bottom:10px;font-size:22px;}
-.online{text-align:center;font-size:14px;margin-bottom:5px;color:#bbb;}
-.global-online{text-align:center;font-size:13px;margin-bottom:15px;color:#00ff88;}
-.creator{
-margin-top:20px;
-font-size:12px;
-color:#888;
-text-align:center;
-}
-.creator a{color:#e50914;text-decoration:none;}
-input, select{
-width:100%;
-padding:14px;
-border:none;
-border-radius:10px;
-background:#2a2a2a;
-color:white;
-font-size:14px;
-margin-bottom:12px;
-}
-.btn{
-width:100%;
-padding:14px;
-background:#e50914;
-color:white;
-border:none;
-border-radius:10px;
-font-size:14px;
-cursor:pointer;
-margin-bottom:12px;
-}
-.btn-secondary{background:#333;}
-.video-box{
-width:100%;
-background:#d9d9d9;
-border-radius:12px;
-overflow:hidden;
-position:relative;
-margin-bottom:20px;
-}
-.video-wrapper{
-position:relative;
-width:100%;
-padding-top:56.25%;
-}
-.video-wrapper iframe,
-.video-wrapper video{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-border:none;
-object-fit:cover;
-}
-.chat{
-background:#111;
-border-radius:12px;
-padding:15px;
-max-height:280px;
-display:flex;
-flex-direction:column;
-margin-bottom:15px;
-}
-#chatBox{flex:1;overflow-y:auto;margin-bottom:10px;}
-.msg{
-background:#222;
-padding:8px 12px;
-border-radius:8px;
-margin-bottom:8px;
-font-size:13px;
-word-break:break-word;
-}
-.msg strong{color:#e50914;}
-#chatBox .msg img {
-  max-width:100%;
-  max-height:200px;
-  border-radius: 8px;
-  margin-top: 5px;
-}
-.btn-sair{
-width:100%;
-padding:12px;
-background:#444;
-color:white;
-border:none;
-border-radius:10px;
-font-size:14px;
-cursor:pointer;
-}
-.login, .home{
-width:95%;
-max-width:500px;
-margin:100px auto;
-background:#181818;
-padding:30px;
-border-radius:16px;
-text-align:center;
-}
-.home p{
-font-size:14px;
-color:#ccc;
-margin-bottom:15px;
-line-height:1.6;
-}
-</style>
+  <style>
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:#0f0f0f;
+      color:white;
+      display:flex;
+      justify-content:center;
+    }
+    .hidden{display:none;}
+    .card{
+      width:95%;
+      max-width:700px;
+      margin:40px auto;
+      background:#181818;
+      padding:25px;
+      border-radius:16px;
+      box-shadow:0 0 25px rgba(0,0,0,0.6);
+    }
+    h1{text-align:center;margin-bottom:10px;font-size:22px;}
+    .online{text-align:center;font-size:14px;margin-bottom:5px;color:#bbb;}
+    .global-online{text-align:center;font-size:13px;margin-bottom:15px;color:#00ff88;}
+    .creator{
+      margin-top:20px;
+      font-size:12px;
+      color:#888;
+      text-align:center;
+    }
+    .creator a{color:#e50914;text-decoration:none;}
+    input, select{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      background:#2a2a2a;
+      color:white;
+      font-size:14px;
+      margin-bottom:12px;
+    }
+    .btn{
+      width:100%;
+      padding:14px;
+      background:#e50914;
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-size:14px;
+      cursor:pointer;
+      margin-bottom:12px;
+    }
+    .btn-secondary{background:#333;}
+    .video-box{
+      width:100%;
+      background:#d9d9d9;
+      border-radius:12px;
+      overflow:hidden;
+      position:relative;
+      margin-bottom:20px;
+    }
+    .video-wrapper{
+      position:relative;
+      width:100%;
+      padding-top:56.25%;
+    }
+    .video-wrapper iframe,
+    .video-wrapper video{
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      border:none;
+      object-fit:cover;
+    }
+    .chat{
+      background:#111;
+      border-radius:12px;
+      padding:15px;
+      max-height:280px;
+      display:flex;
+      flex-direction:column;
+      margin-bottom:15px;
+    }
+    #chatBox{flex:1;overflow-y:auto;margin-bottom:10px;}
+    .msg{
+      background:#222;
+      padding:8px 12px;
+      border-radius:8px;
+      margin-bottom:8px;
+      font-size:13px;
+      word-break:break-word;
+    }
+    .msg strong{color:#e50914;}
+    #chatBox .msg img {
+      max-width:100%;
+      max-height:200px;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+    .btn-sair{
+      width:100%;
+      padding:12px;
+      background:#444;
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-size:14px;
+      cursor:pointer;
+    }
+    .login, .home{
+      width:95%;
+      max-width:500px;
+      margin:100px auto;
+      background:#181818;
+      padding:30px;
+      border-radius:16px;
+      text-align:center;
+    }
+    .home p{
+      font-size:14px;
+      color:#ccc;
+      margin-bottom:15px;
+      line-height:1.6;
+    }
+  </style>
 </head>
 <body>
 
 <!-- HOME -->
 <div class="home" id="homeBox">
-<h2>🎥 PRIVE</h2>
+  <h2>🎥 PRIVE</h2>
 
-<p><strong>Seja Bem-Vindo!</strong></p>
-<p>
-Estamos felizes em ter você aqui!<br>
-Agora, você pode criar ou entrar em salas exclusivas, assistir vídeos com seus amigos e conversar em tempo real.<br>
-Vamos começar!
-</p>
+  <p><strong>Seja Bem-Vindo!</strong></p>
+  <p>
+    Estamos felizes em ter você aqui!<br>
+    Agora, você pode criar ou entrar em salas exclusivas, assistir vídeos com seus amigos e conversar em tempo real.<br>
+    Vamos começar!
+  </p>
 
-<button class="btn" onclick="abrirLogin()">Entrar</button>
-<div class="global-online" id="totalOnlineGlobal">Usuários no site: 66</div>
+  <button class="btn" onclick="abrirLogin()">Entrar</button>
+  <div class="global-online" id="totalOnlineGlobal">Usuários no site: 66</div>
 
-<div class="creator">
-Criador: <strong>Isac Santos</strong><br>
-Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a>
-</div>
+  <div class="creator">
+    Criador: <strong>Isac Santos</strong><br>
+    Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a>
+  </div>
 </div>
 
 <!-- LOGIN -->
 <div class="login hidden" id="loginBox">
-<h2>Registrar</h2>
-<input type="text" id="nomeUsuario" placeholder="Seu nome">
-<input type="password" id="senhaSala" placeholder="Senha da sala">
-<button class="btn" id="btnEntrar">Entrar</button>
-<button class="btn btn-secondary" onclick="voltarHome()">Voltar</button>
+  <h2>Registrar</h2>
+  <input type="text" id="nomeUsuario" placeholder="Seu nome">
+  <input type="password" id="senhaSala" placeholder="Senha da sala">
+  <button class="btn" id="btnEntrar">Entrar</button>
+  <button class="btn btn-secondary" onclick="voltarHome()">Voltar</button>
 </div>
 
 <!-- SALA -->
 <div class="card hidden" id="salaBox">
-<h1>🎥 Sala Privada</h1>
-<div class="online" id="onlineInfo">Online na sala: 0</div>
-<div class="global-online" id="globalSala">Usuários no site: 66</div>
+  <h1>🎥 Sala Privada</h1>
+  <div class="online" id="onlineInfo">Online na sala: 0</div>
+  <div class="global-online" id="globalSala">Usuários no site: 66</div>
 
-<h3>Participantes Online</h3>
-<div id="listaOnline"></div>
+  <h3>Participantes Online</h3>
+  <div id="listaOnline"></div>
 
-<input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
-<button class="btn" id="btnEnviarVideo" disabled>Enviar Vídeo</button>
+  <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
+  <button class="btn" id="btnEnviarVideo" disabled>Enviar Vídeo</button>
 
-<div class="video-box">
-<div class="video-wrapper" id="videoArea"></div>
-</div>
+  <div class="video-box">
+    <div class="video-wrapper" id="videoArea"></div>
+  </div>
 
-<h3>Bate-Papo</h3>
-<div class="chat">
-<div id="chatBox"></div>
-<input type="text" id="chatInput" placeholder="Mensagem">
-<button class="btn" id="btnEnviarMsg">Enviar</button>
-</div>
+  <h3>Bate-Papo</h3>
+  <div class="chat">
+    <div id="chatBox"></div>
+    <input type="text" id="chatInput" placeholder="Mensagem">
+    <button class="btn" id="btnEnviarMsg">Enviar</button>
+  </div>
 
-<button class="btn hidden" id="btnTransferirDono" onclick="mostrarListaParticipantes()">Transferir Dono</button>
+  <button class="btn hidden" id="btnTransferirDono" onclick="mostrarListaParticipantes()">Transferir Dono</button>
 
-<button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
+  <button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
 
-<div class="creator">
-Criador: <strong>Isac Santos</strong> |
-Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
-</div>
+  <div class="creator">
+    Criador: <strong>Isac Santos</strong> |
+    Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@nini.vuhh</a>
+  </div>
 </div>
 
 <audio id="notifSound">
-<source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg">
+  <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg">
 </audio>
 
 <script type="module">
