@@ -169,6 +169,9 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a
 <div class="online" id="onlineInfo">Online na sala: 0</div>
 <div class="global-online" id="globalSala">Usuários no site: 66</div>
 
+<h3>Participantes Online</h3>
+<div id="listaOnline"></div>
+
 <input type="text" id="linkInput" placeholder="Link YouTube ou .mp4">
 <button class="btn" id="btnEnviarVideo" disabled>Enviar Vídeo</button>
 
@@ -180,9 +183,10 @@ Instagram: <a href="https://instagram.com/nini.vuhh" target="_blank">@romavuh</a
 <div class="chat">
 <div id="chatBox"></div>
 <input type="text" id="chatInput" placeholder="Mensagem">
-<input type="file" id="imageInput" accept="image/*">
 <button class="btn" id="btnEnviarMsg">Enviar</button>
 </div>
+
+<button class="btn hidden" id="btnTransferirDono">Transferir Dono</button>
 
 <button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
 
@@ -271,6 +275,9 @@ btnEntrar.onclick = async () => {
   loginBox.classList.add("hidden");
   salaBox.classList.remove("hidden");
 
+  // Não exibir botão de "Transferir Dono" imediatamente
+  btnTransferirDono.classList.add("hidden");
+
   onSnapshot(salaRef, (docSnap) => {
     let dados = docSnap.data();
     if (!dados) return;
@@ -289,6 +296,21 @@ btnEntrar.onclick = async () => {
 
     onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
+    // Exibir lista de participantes online
+    listaOnline.innerHTML = '';
+    dados.online.forEach((usuario) => {
+      let usuarioDiv = document.createElement("div");
+      usuarioDiv.className = "usuario";
+      usuarioDiv.innerHTML = usuario;
+      usuarioDiv.onclick = () => transferirDono(usuario);
+      listaOnline.appendChild(usuarioDiv);
+    });
+
+    // Exibe o botão de "Transferir Dono" apenas se mais de 1 pessoa estiver online
+    if (dados.online.length > 1) {
+      btnTransferirDono.classList.remove("hidden");
+    }
+    
     // Apenas o dono pode enviar vídeos
     if (nomeLocal !== donoSala) {
       btnEnviarVideo.disabled = true;
@@ -297,6 +319,21 @@ btnEntrar.onclick = async () => {
     }
   });
 };
+
+// Transferir Dono
+function transferirDono(novoDono) {
+  if (nomeLocal !== donoSala) {
+    alert("Você não é o dono da sala");
+    return;
+  }
+
+  // Verifica se o novo dono está online na sala
+  if (novoDono) {
+    updateDoc(salaRef, { dono: novoDono });
+    donoSala = novoDono;
+    alert("Agora " + novoDono + " é o dono da sala");
+  }
+}
 
 // Enviar vídeo
 btnEnviarVideo.onclick = async () => {
@@ -333,19 +370,12 @@ function carregarVideo(link) {
 // Enviar mensagem no chat
 btnEnviarMsg.onclick = async () => {
   let texto = chatInput.value.trim();
-  let image = imageInput.files[0]; // Envio de imagem
-  if (!texto && !image) return;
+  if (!texto) return;
 
   const chatMsg = { nome: nomeLocal, msg: texto };
-
-  if (image) {
-    const imgUrl = URL.createObjectURL(image);
-    chatMsg.img = imgUrl;
-  }
-
+  
   await updateDoc(salaRef, { chat: arrayUnion(chatMsg) });
   chatInput.value = "";
-  imageInput.value = ""; // Limpar input de imagem
 };
 
 // Mostrar chat
@@ -356,12 +386,6 @@ function mostrarChat(lista) {
     div.className = "msg";
     let nomeExibido = item.nome === donoSala ? "👑 " + item.nome : item.nome;
     div.innerHTML = "<strong>" + nomeExibido + ":</strong> " + item.msg;
-
-    if (item.img) {
-      let img = document.createElement("img");
-      img.src = item.img;
-      div.appendChild(img);
-    }
 
     chatBox.appendChild(div);
   });
