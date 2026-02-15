@@ -19,7 +19,19 @@
       min-height:100vh;
     }
 
-    /* ===== HOME ===== */
+    /* ===== ANIMAÇÃO ===== */
+    @keyframes fadeInUp{
+      0%{opacity:0; transform:translateY(40px);}
+      100%{opacity:1; transform:translateY(0);}
+    }
+
+    @keyframes pulseTitle{
+      0%{transform:scale(1);}
+      50%{transform:scale(1.05);}
+      100%{transform:scale(1);}
+    }
+
+    /* ===== HOME ESTILO COM ANIMAÇÃO ===== */
     .home{
       width:95%;
       max-width:500px;
@@ -28,6 +40,7 @@
       border-radius:20px;
       text-align:center;
       box-shadow:0 0 40px rgba(0,0,0,0.7);
+      animation:fadeInUp 1s ease;
     }
 
     .logo{
@@ -35,6 +48,7 @@
       font-weight:bold;
       color:#ff0000;
       margin-bottom:15px;
+      animation:pulseTitle 2s infinite;
     }
 
     .sub{
@@ -67,6 +81,23 @@
     .btn:hover{
       background:#cc0000;
       transform:scale(1.03);
+    }
+
+    .global-online{
+      color:#00ff88;
+      font-size:15px;
+      margin-top:10px;
+    }
+
+    .creator{
+      margin-top:25px;
+      font-size:12px;
+      color:#888;
+    }
+
+    .creator a{
+      color:#ff0000;
+      text-decoration:none;
     }
 
     /* ===== LOGIN E SALA ===== */
@@ -172,6 +203,13 @@
     Só quem souber entra!
   </p>
   <button class="btn" onclick="abrirLogin()">Entrar na Sala</button>
+  <div class="global-online" id="totalOnlineGlobal">
+    Usuários no site: 0
+  </div>
+  <div class="creator">
+    Criador: <strong>Isac Santos</strong><br>
+    Instagram: <a href="https://instagram.com/lovezin.vuh" target="_blank">@lovezin.vuh</a>
+  </div>
 </div>
 
 <!-- LOGIN -->
