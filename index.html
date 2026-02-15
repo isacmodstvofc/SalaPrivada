@@ -240,8 +240,7 @@
   
   <!-- Vídeo na tela inicial -->
   <div class="video-box">
-    <div class="video-wrapper" id="videoArea">
-      <!-- Exibindo o vídeo do YouTube diretamente aqui -->
+    <div class="video-wrapper" id="videoAreaHome">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/sX5R9yC27Bk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
@@ -280,7 +279,7 @@
   </div>
 
   <div class="video-box">
-    <div class="video-wrapper" id="videoArea"></div>
+    <div class="video-wrapper" id="videoAreaSala"></div> <!-- Vídeo exclusivo para a sala -->
   </div>
 
   <h3>Chat</h3>
@@ -443,7 +442,7 @@
   }
 
   function carregarVideo(link){
-    videoArea.innerHTML = "";
+    videoAreaSala.innerHTML = ""; // Limpar vídeo existente
     if(link.includes("youtu")){
       let id = "";
       if(link.includes("watch?v=")){
@@ -454,13 +453,13 @@
       let iframe = document.createElement("iframe");
       iframe.src = "https://www.youtube.com/embed/" + id;
       iframe.allowFullscreen = true;
-      videoArea.appendChild(iframe);
+      videoAreaSala.appendChild(iframe);
     } else {
       let video = document.createElement("video");
       video.src = link;
       video.controls = true;
       video.autoplay = true;
-      videoArea.appendChild(video);
+      videoAreaSala.appendChild(video);
     }
   }
 
