@@ -255,8 +255,8 @@
     <div id="onlineInfo">Online na sala: 1</div>
   </div>
 
-  <input type="text" id="linkInput" placeholder="Link YouTube, TikTok, Instagram ou .mp4">
-  <button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
+  <input type="text" id="linkInput" placeholder="Link YouTube, TikTok, Instagram, Stories ou .mp4">
+  <button class="btn" id="btnEnviarVideo" onclick="carregarVideo(linkInput.value)">Enviar Vídeo</button>
 
   <div class="video-box">
     <div class="video-wrapper" id="videoArea"></div>
@@ -426,7 +426,7 @@
 
   function carregarVideo(link){
     videoArea.innerHTML = "";
-    
+
     // Carregar vídeos do YouTube
     if(link.includes("youtu")){
         let id = "";
@@ -439,7 +439,7 @@
         iframe.src = "https://www.youtube.com/embed/" + id;
         iframe.allowFullscreen = true;
         videoArea.appendChild(iframe);
-    
+
     // Carregar vídeos do TikTok
     } else if(link.includes("tiktok.com")){
         let id = link.split("/")[5];
@@ -450,19 +450,28 @@
         iframe.allowFullscreen = true;
         videoArea.appendChild(iframe);
 
-    // Carregar vídeos do Instagram
-    } else if(link.includes("instagram.com")){
-        let id = link.split("/p/")[1]?.split("/")[0];
+    // Carregar vídeos do Instagram Reels
+    } else if(link.includes("instagram.com/reel/")){
+        let id = link.split("/reel/")[1]?.split("/")[0]; // Para pegar o ID do Reel
         if (id) {
             let iframe = document.createElement("iframe");
-            iframe.src = `https://www.instagram.com/p/${id}/embed`;
+            iframe.src = `https://www.instagram.com/reel/${id}/embed`;
             iframe.width = "100%";
             iframe.height = "500px";
             iframe.frameBorder = "0";
             iframe.allowFullscreen = true;
             videoArea.appendChild(iframe);
         } else {
-            alert("Link do Instagram inválido.");
+            alert("Link do Instagram Reels inválido.");
+        }
+
+    // Carregar vídeos do Instagram Stories
+    } else if(link.includes("instagram.com/stories/")){
+        let id = link.split("/stories/")[1]?.split("/")[0]; // Para pegar o ID da História
+        if (id) {
+            window.open(link, '_blank');  // Abre a história no Instagram
+        } else {
+            alert("Link do Instagram Stories inválido.");
         }
 
     // Carregar vídeos de outras fontes, como arquivos mp4
