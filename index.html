@@ -10,8 +10,8 @@
 
     body{
       margin:0;
-      font-family: 'Arial', Helvetica, sans-serif;
-      background: linear-gradient(180deg, #ff66b2, #ff3385); /* Fundo rosa romântico */
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#0f0f0f,#000);
       color:white;
       display:flex;
       justify-content:center;
@@ -22,24 +22,22 @@
     .home{
       width:95%;
       max-width:500px;
-      background:#fff;
+      background:#111;
       padding:35px 25px;
       border-radius:20px;
       text-align:center;
-      box-shadow:0 0 40px rgba(0,0,0,0.3);
-      background: #fce4ec; /* Rosa suave */
+      box-shadow:0 0 40px rgba(0,0,0,0.7);
     }
 
     .logo{
       font-size:40px;
       font-weight:bold;
-      color:#ff0066;
+      color:#ff0000;
       margin-bottom:15px;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
     }
 
     .sub{
-      color:#ff3366;
+      color:#00ff88;
       font-size:20px;
       margin-bottom:20px;
       font-weight:bold;
@@ -48,7 +46,7 @@
     .btn{
       width:100%;
       padding:16px;
-      background:#ff0066;
+      background:#ff0000;
       color:white;
       border:none;
       border-radius:15px;
@@ -56,16 +54,15 @@
       cursor:pointer;
       margin-bottom:20px;
       transition:0.3s;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .btn:hover{
-      background:#cc0052;
-      transform:scale(1.05);
+      background:#cc0000;
+      transform:scale(1.03);
     }
 
     .global-online{
-      color:#ffccff;
+      color:#00ff88;
       font-size:15px;
       margin-top:10px;
     }
@@ -77,7 +74,6 @@
       overflow:hidden;
       position:relative;
       margin-bottom:20px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .video-wrapper{
@@ -97,6 +93,7 @@
       object-fit:cover;
     }
 
+    /* Estilo para os botões lado a lado */
     .botao-container {
       display: flex;
       justify-content: space-between;
@@ -104,7 +101,7 @@
     }
 
     .botao-container .btn {
-      width: 48%;
+      width: 48%; /* Torna os botões menores e com espaço entre eles */
     }
 
     /* ===== LOGIN E SALA ===== */
@@ -125,7 +122,7 @@
       padding:14px;
       border:none;
       border-radius:10px;
-      background:#fce4ec; /* Rosa claro */
+      background:#2a2a2a;
       color:white;
       font-size:14px;
       margin-bottom:12px;
@@ -136,7 +133,7 @@
     }
 
     .chat{
-      background:#ff99cc;
+      background:#111;
       border-radius:12px;
       padding:15px;
       max-height:280px;
@@ -148,7 +145,7 @@
     #chatBox{flex:1;overflow-y:auto;margin-bottom:10px;}
 
     .msg{
-      background:#ff66b2;
+      background:#222;
       padding:8px 12px;
       border-radius:8px;
       margin-bottom:8px;
@@ -156,18 +153,17 @@
       word-break:break-word;
     }
 
-    .msg strong{color:#ff0066;}
+    .msg strong{color:#e50914;}
 
     .btn-sair{
       width:100%;
       padding:12px;
-      background:#ff0066;
+      background:#444;
       color:white;
       border:none;
       border-radius:10px;
       font-size:14px;
       cursor:pointer;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .header-sala{
@@ -175,6 +171,7 @@
       margin-bottom: 20px;
     }
 
+    /* Estilo para a coroa antes do nome */
     .header-sala .nome-com-coroa{
       font-size: 28px;
       display: flex;
@@ -195,60 +192,16 @@
       color: #ccc;
     }
 
-    .creator-info{
+    /* Créditos */
+    .creditos {
       margin-top: 20px;
       font-size: 14px;
       color: #ccc;
     }
 
-    .creator-info a{
-      color: #800080;
+    .creditos a {
+      color: #00ff88;
       text-decoration: none;
-    }
-
-    .creator-info a:hover{
-      text-decoration: underline;
-    }
-
-    /* Estilo para o modal */
-    #transferirDonoModal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: #222;
-      padding: 20px;
-      border-radius: 12px;
-      text-align: center;
-      color: white;
-      width: 80%;
-      max-width: 400px;
-    }
-
-    #usuariosOnlineList {
-      list-style: none;
-      padding: 0;
-    }
-
-    #usuariosOnlineList li {
-      margin: 8px 0;
-      padding: 8px;
-      background: #333;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    #usuariosOnlineList li:hover {
-      background: #555;
     }
   </style>
 </head>
@@ -268,17 +221,8 @@
     Usuários no site: 0
   </div>
 
-<!-- Vídeo incorporado na tela inicial -->
-  <div class="video-box">
-    <div class="video-wrapper" id="videoAreaSala">
-      <iframe src="https://www.youtube.com/embed/CVz492o65MU?si=yeooCEKg6JZiyEVg" allowfullscreen></iframe>
-    </div>
-  </div>
-
-  <!-- Informações do Criador -->
-  <div class="creator-info">
-    Criado por <strong>Isac Santos</strong><br>
-    Instagram: <a href="https://www.instagram.com/lovezin.vuh/" target="_blank">@lovezin.vuh</a>
+  <div class="creditos">
+    Criado por <strong>Isac Santos</strong> | Instagram: <a href="https://www.instagram.com/lovezin.vuh" target="_blank">lovezin.vuh</a>
   </div>
 </div>
 
@@ -309,10 +253,10 @@
   </div>
 
   <div class="video-box">
-    <div class="video-wrapper" id="videoAreaSala"></div> <!-- Vídeo exclusivo para a sala -->
+    <div class="video-wrapper" id="videoArea"></div>
   </div>
 
-    <h3>Chat</h3>
+  <h3>Chat</h3>
   <div class="chat">
     <div id="chatBox"></div>
     <input type="text" id="chatInput" placeholder="Mensagem">
@@ -320,15 +264,6 @@
   </div>
 
   <button class="btn-sair" onclick="sairSala()">Sair da Sala</button>
-</div>
-
-<!-- Modal de Transferir Dono -->
-<div id="transferirDonoModal">
-  <div class="modal-content">
-    <h2>Escolha um novo dono:</h2>
-    <ul id="usuariosOnlineList"></ul>
-    <button class="btn" onclick="fecharModal()">Cancelar</button>
-  </div>
 </div>
 
 <audio id="notifSound">
@@ -411,6 +346,7 @@
 
       onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
+      // Atualiza o nome e a coroa
       let nomeSalaElement = document.getElementById("nomeSala");
       nomeSalaElement.innerHTML = donoSala;
 
@@ -480,7 +416,7 @@
   }
 
   function carregarVideo(link){
-    videoAreaSala.innerHTML = ""; // Limpar vídeo existente
+    videoArea.innerHTML = "";
     if(link.includes("youtu")){
       let id = "";
       if(link.includes("watch?v=")){
@@ -491,16 +427,17 @@
       let iframe = document.createElement("iframe");
       iframe.src = "https://www.youtube.com/embed/" + id;
       iframe.allowFullscreen = true;
-      videoAreaSala.appendChild(iframe);
+      videoArea.appendChild(iframe);
     } else {
       let video = document.createElement("video");
       video.src = link;
       video.controls = true;
       video.autoplay = true;
-      videoAreaSala.appendChild(video);
+      videoArea.appendChild(video);
     }
   }
 
+  // Função de minimizar o chat
   const btnMinimizarChat = document.getElementById("btnMinimizarChat");
   const btnAbrirChat = document.getElementById("btnAbrirChat");
 
