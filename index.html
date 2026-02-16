@@ -6,195 +6,151 @@
   <title>LOVEZIN</title>
 
   <style>
-    * { box-sizing: border-box; }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:linear-gradient(180deg,#0f0f0f,#000);
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-height:100vh;
+      flex-direction:column;
+    }
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #0f0f0f, #000);
+    /* LOGIN */
+    .login{
+      width:100%;
+      max-width:600px;
+      background:#181818;
+      padding:25px;
+      border-radius:16px;
+      text-align:center;
+      box-shadow:0 0 25px rgba(0,0,0,0.6);
+    }
+    input{
+      width:100%;
+      padding:14px;
+      border:none;
+      border-radius:10px;
+      background:#2a2a2a;
+      color:white;
+      font-size:14px;
+      margin-bottom:12px;
+    }
+    .btn{
+      width:100%;
+      padding:16px;
+      background:#4CAF50;
+      color:white;
+      border:none;
+      border-radius:15px;
+      font-size:16px;
+      cursor:pointer;
+      margin-bottom:15px;
+      transition:0.3s;
+    }
+    .btn:hover{background:#45a049;transform:scale(1.03);}
+    .hidden{display:none;}
+    .contador-online{font-size:18px;color:#00ff88;margin-top:10px;}
+
+    /* SALA */
+    .sala-container{
+      padding:25px;
+      background:#212121;
+      border-radius:20px;
+      width:100%;
+      max-width:800px;
+      margin-top:20px;
+      box-shadow:0 0 30px rgba(0,0,0,0.8);
+    }
+    .sala-header{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:15px;
+    }
+    .video-container{
+      margin-top:15px;
+      position:relative;
+      width:100%;
+      padding-top:56.25%;
+      background:#000;
+      border-radius:10px;
+      overflow:hidden;
+    }
+    .video-container iframe,
+    .video-container video{
+      position:absolute;
+      top:0;left:0;width:100%;height:100%;
+    }
+    .chat-container{
+      margin-top:20px;
+      background:#333;
+      padding:15px;
+      border-radius:10px;
+      max-height:300px;
+      overflow-y:auto;
+    }
+    .msg{
+      margin:8px 0;
+      padding:8px;
+      background:#3e3e3e;
+      border-radius:8px;
+    }
+    .msg strong{color:#ff5722;}
+
+    /* LOJA */
+    .loja-btn{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      background:#ff9800;
+      color:white;
+      border:none;
+      padding:15px;
+      border-radius:50%;
+      cursor:pointer;
+      font-size:20px;
+      z-index:999;
+    }
+    .loja-box{
+      position:fixed;
+      bottom:90px;
+      right:20px;
+      width:260px;
+      background:#1e1e1e;
+      padding:20px;
+      border-radius:15px;
+      display:none;
+      z-index:999;
+    }
+    .moedas{color:#00ff88;margin-bottom:10px;}
+    .item{
+      background:#2a2a2a;
+      padding:10px;
+      border-radius:10px;
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .item button{
+      background-color: #4CAF50;
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      flex-direction: column;
-    }
-
-    .login, .card {
-      width: 100%;
-      max-width: 600px;
-      background: #181818;
-      padding: 25px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
-    }
-
-    input {
-      width: 100%;
-      padding: 14px;
       border: none;
       border-radius: 10px;
-      background: #2a2a2a;
-      color: white;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 16px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 15px;
-      font-size: 16px;
+      padding: 8px;
       cursor: pointer;
-      margin-bottom: 20px;
       transition: 0.3s;
     }
-
-    .btn:hover {
-      background: #45a049;
-      transform: scale(1.03);
-    }
-
-    .creditos {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #ccc;
-    }
-
-    .creditos a {
-      color: #00ff88;
-      text-decoration: none;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .sala-container {
-      position: relative;
-      padding: 30px;
-      background: #212121;
-      border-radius: 20px;
-      width: 100%;
-      max-width: 800px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-      margin-top: 20px;
-    }
-
-    .sala-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .header-info {
-      font-size: 18px;
-      color: #ddd;
-    }
-
-    .video-container {
-      margin-top: 20px;
-      position: relative;
-      width: 100%;
-      padding-top: 56.25%; /* Proporção 16:9 */
-      background: #000;
-      border-radius: 10px;
-      overflow: hidden;
-    }
-
-    .video-container iframe, .video-container video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .chat-container {
-      display: flex;
-      flex-direction: column;
-      max-height: 300px;
-      overflow-y: auto;
-      margin-top: 20px;
-      background: #333;
-      padding: 15px;
-      border-radius: 10px;
-    }
-
-    .chat-box {
-      flex-grow: 1;
-      overflow-y: auto;
-      margin-bottom: 15px;
-    }
-
-    .chat-input-container {
-      display: flex;
-    }
-
-    .chat-input {
-      flex-grow: 1;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      background: #444;
-      color: white;
-      margin-right: 10px;
-    }
-
-    .chat-send-btn {
-      padding: 12px;
-      background: #ff5722;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      border: none;
-      transition: 0.3s;
-    }
-
-    .chat-send-btn:hover {
-      background: #e64a19;
-    }
-
-    .msg {
-      margin: 10px 0;
-      padding: 10px;
-      background: #3e3e3e;
-      border-radius: 10px;
-    }
-
-    .msg strong {
-      color: #ff5722;
-    }
-
-    /* Novo estilo para contador de usuários */
-    .contador-online {
-      font-size: 18px;
-      color: #00ff88;
-      margin-top: 20px;
-      text-align: center;
-    }
-
-    /* Estilo para o player de rádio */
-    .radio-container {
-      margin-top: 20px;
-      width: 100%;
-      max-width: 600px;
-      background: #181818;
-      padding: 20px;
-      border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    .item button:hover {
+      background-color: #45a049;
     }
   </style>
 </head>
 <body>
 
-<!-- LOGIN (Tela de login/registro) -->
+<!-- LOGIN -->
 <div class="login" id="loginBox">
   <h2>Cadastro</h2>
   <input type="text" id="nomeUsuario" placeholder="Seu nome">
@@ -202,262 +158,238 @@
   <button class="btn" id="btnCriarSala">Criar Sala</button>
   <button class="btn" id="btnEntrarSala">Entrar na Sala</button>
 
-  <!-- Contador de usuários online agora abaixo do botão de login -->
   <div class="contador-online" id="contadorOnline">Usuários online: 0</div>
 
-  <!-- Rádio -->
-  <div class="radio-container">
-    <audio id="radioAudio" autoplay loop controls>
-      <source src="https://jpdofunk3.com.br/stream/blunntdj" type="audio/mp3">
-      Seu navegador não suporta a tag de áudio.
-    </audio>
-  </div>
-
-  <div class="creditos">
-    Criado por <strong>Isac Santos</strong> | Instagram: <a href="https://www.instagram.com/lovezin.vuh" target="_blank">lovezin.vuh</a>
-  </div>
+  <audio autoplay loop controls>
+    <source src="https://jpdofunk3.com.br/stream/blunntdj" type="audio/mp3">
+  </audio>
 </div>
 
 <!-- SALA -->
 <div class="sala-container hidden" id="salaBox">
   <div class="sala-header">
-    <div class="header-info" id="nomeSala">Robert</div>
-    <div id="onlineInfo">Online na sala: 1</div>
+    <div id="nomeSala">Sala</div>
+    <div id="onlineInfo">Online: 0</div>
   </div>
 
-  <!-- Campo de vídeo -->
-  <input type="text" id="videoLink" placeholder="Link do vídeo (YouTube, TikTok, etc.)" style="width: 100%; padding: 14px; border: none; border-radius: 10px; background: #444; color: white; font-size: 14px; margin-bottom: 12px;">
+  <input type="text" id="videoLink" placeholder="Link YouTube">
   <button class="btn" id="btnEnviarVideo">Enviar Vídeo</button>
 
-  <!-- Video Container -->
   <div class="video-container" id="videoArea"></div>
 
-  <!-- Chat -->
-  <div class="chat-container hidden" id="chatContainer">
-    <div class="chat-box" id="chatBox"></div>
-    <div class="chat-input-container">
-      <input type="text" class="chat-input" id="chatInput" placeholder="Digite uma mensagem">
-      <button class="chat-send-btn" id="btnEnviarMsg">Enviar</button>
-    </div>
-  </div>
+  <div class="chat-container" id="chatBox"></div>
 
-  <!-- Botões -->
+  <input type="text" id="chatInput" placeholder="Digite mensagem">
+  <button class="btn" id="btnEnviarMsg">Enviar</button>
+
   <button class="btn" onclick="sairSala()">Sair da Sala</button>
 </div>
 
-<audio id="notifSound">
+<!-- LOJA -->
+<button class="loja-btn" id="abrirLojaBtn">🛒</button>
+
+<div class="loja-box" id="lojaBox">
+  <h3>Lojinha</h3>
+  <div class="moedas">Moedas: <span id="totalMoedas">500</span></div>
+  <div class="item">
+    <span>💎 Diamante</span>
+    <button id="btnDiamante">50 Moedas</button>
+  </div>
+  <div class="item">
+    <span>🌸 Cor Rosa nas mensagens</span>
+    <button id="btnRosa">30 Moedas</button>
+  </div>
+  <div class="item">
+    <span>❤️ Cor Vermelha nas mensagens</span>
+    <button id="btnVermelho">40 Moedas</button>
+  </div>
+  <button class="btn" id="fecharLojaBtn">Fechar</button>
+</div>
+
+<!-- SOM ÚNICO -->
+<audio id="somChat">
   <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg">
 </audio>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAvGr4AMVDLtTu0OVy9wZB2t5Qt3DTBDQ8",
-    authDomain: "priveflix.firebaseapp.com",
-    projectId: "priveflix",
-    storageBucket: "priveflix.firebasestorage.app",
-    messagingSenderId: "92242980044",
-    appId: "1:92242980044:web:4340e03b197b842c252669",
-    measurementId: "G-W1C74TT6W2"
-  };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot, updateDoc, arrayUnion, arrayRemove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const firebaseConfig = {
+  apiKey: "AIzaSyAvGr4AMVDLtTu0OVy9wZB2t5Qt3DTBDQ8",
+  authDomain: "priveflix.firebaseapp.com",
+  projectId: "priveflix"
+};
 
-  let salaRef = null;
-  let nomeLocal = "";
-  let donoSala = "";
-  let ultimoVideo = "";
-  let ultimoChat = 0;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  const globalRef = doc(db, "site", "online");
+let salaRef = null;
+let nomeLocal = "";
+let moedas = 100;
+let ultimoChat = 0;
+let ultimoVideo = "";
+let corMsg = "white";  // Cor padrão da mensagem
 
-  async function entrarSite(){
-    let snap = await getDoc(globalRef);
-    if(!snap.exists()) await setDoc(globalRef, {total: 0});
-    await updateDoc(globalRef, {total: increment(1)});
+const globalRef = doc(db, "site", "online");
+
+async function entrarSite() {
+  let snap = await getDoc(globalRef);
+  if (!snap.exists()) await setDoc(globalRef, { total: 0 });
+  await updateDoc(globalRef, { total: increment(1) });
+}
+entrarSite();
+
+onSnapshot(globalRef, (snap) => {
+  if (snap.exists())
+    contadorOnline.innerText = "Usuários online: " + snap.data().total;
+});
+
+async function entrarOuCriar() {
+  let senha = senhaSala.value.trim();
+  let nome = nomeUsuario.value.trim();
+  if (!senha || !nome) return alert("Preencha tudo");
+
+  nomeLocal = nome;
+  salaRef = doc(db, "salas", senha);
+
+  let snap = await getDoc(salaRef);
+  if (!snap.exists()) {
+    await setDoc(salaRef, { video: "", chat: [], online: [], dono: nome, moedas: 100, diamantes: [] });
   }
 
-  async function sairSite(){ await updateDoc(globalRef, {total: increment(-1)}); }
-  entrarSite();
-
-  onSnapshot(globalRef, (snap) => {
-    let d = snap.data();
-    if(d){
-      document.getElementById("contadorOnline").innerText = "Usuários online: " + d.total;
-    }
+  await updateDoc(salaRef, {
+    online: arrayUnion(nomeLocal),
+    chat: arrayUnion({ nome: "Sistema", msg: nomeLocal + " entrou na sala" })
   });
 
-  btnCriarSala.onclick = async () => {
-    let senha = senhaSala.value.trim();
-    let nome = nomeUsuario.value.trim();
-    if(!senha || !nome){ alert("Preencha tudo"); return; }
+  loginBox.classList.add("hidden");
+  salaBox.classList.remove("hidden");
 
-    nomeLocal = nome;
-    salaRef = doc(db, "salas", senha);
+  onSnapshot(salaRef, (docSnap) => {
+    let dados = docSnap.data();
+    if (!dados) return;
 
-    let snap = await getDoc(salaRef);
-    if(!snap.exists()){
-      await setDoc(salaRef, {video: "", chat: [], online: [], dono: nomeLocal});
-      donoSala = nomeLocal;
-    } else {
-      donoSala = snap.data().dono;
+    onlineInfo.innerText = "Online: " + dados.online.length;
+    nomeSala.innerText = dados.dono;
+
+    if (dados.chat.length !== ultimoChat) {
+      ultimoChat = dados.chat.length;
+      document.getElementById("somChat").play();
     }
 
-    await updateDoc(salaRef, {
-      online: arrayUnion(nomeLocal),
-      chat: arrayUnion({nome: "Sistema", msg: nomeLocal + " entrou na sala"})
-    });
-
-    loginBox.classList.add("hidden");
-    salaBox.classList.remove("hidden");
-
-    onSnapshot(salaRef, (docSnap) => {
-      let dados = docSnap.data();
-      if(!dados) return;
-
-      donoSala = dados.dono;
-
-      onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
-
-      let nomeSalaElement = document.getElementById("nomeSala");
-      nomeSalaElement.innerHTML = donoSala;
-
-      if(nomeLocal !== donoSala){
-        btnEnviarVideo.disabled = true;
-      } else {
-        btnEnviarVideo.disabled = false;
-      }
-
-      if(dados.chat && dados.chat.length !== ultimoChat){
-        ultimoChat = dados.chat.length;
-        mostrarChat(dados.chat);
-      }
-
-      if(dados.video && dados.video !== ultimoVideo){
-        ultimoVideo = dados.video;
-        carregarVideo(dados.video);
-      }
-    });
-  };
-
-  btnEntrarSala.onclick = async () => {
-    let senha = senhaSala.value.trim();
-    let nome = nomeUsuario.value.trim();
-    if(!senha || !nome){ alert("Preencha tudo"); return; }
-
-    nomeLocal = nome;
-    salaRef = doc(db, "salas", senha);
-
-    let snap = await getDoc(salaRef);
-    if(!snap.exists()){ alert("Sala não encontrada"); return; }
-
-    donoSala = snap.data().dono;
-
-    await updateDoc(salaRef, {
-      online: arrayUnion(nomeLocal),
-      chat: arrayUnion({nome: "Sistema", msg: nomeLocal + " entrou na sala"})
-    });
-
-    loginBox.classList.add("hidden");
-    salaBox.classList.remove("hidden");
-
-    onSnapshot(salaRef, (docSnap) => {
-      let dados = docSnap.data();
-      if(!dados) return;
-
-      donoSala = dados.dono;
-
-      onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
-
-      let nomeSalaElement = document.getElementById("nomeSala");
-      nomeSalaElement.innerHTML = donoSala;
-
-      if(nomeLocal !== donoSala){
-        btnEnviarVideo.disabled = true;
-      } else {
-        btnEnviarVideo.disabled = false;
-      }
-
-      if(dados.chat && dados.chat.length !== ultimoChat){
-        ultimoChat = dados.chat.length;
-        mostrarChat(dados.chat);
-      }
-
-      if(dados.video && dados.video !== ultimoVideo){
-        ultimoVideo = dados.video;
-        carregarVideo(dados.video);
-      }
-    });
-  };
-
-  btnEnviarMsg.onclick = async () => {
-    let texto = chatInput.value.trim();
-    if(!texto) return;
-    await updateDoc(salaRef, {chat: arrayUnion({nome: nomeLocal, msg: texto})});
-    chatInput.value = "";
-  };
-
-  btnEnviarVideo.onclick = async () => {
-    let link = videoLink.value.trim();
-    if(!link) return;
-    await updateDoc(salaRef, {video: link});
-    videoLink.value = "";
-  };
-
-  async function sairSala(){
-    if(!salaRef){ location.reload(); return; }
-
-    let snap = await getDoc(salaRef);
-    let dados = snap.data();
-
-    await updateDoc(salaRef, {
-      online: arrayRemove(nomeLocal),
-      chat: arrayUnion({nome: "Sistema", msg: nomeLocal + " saiu da sala"})
-    });
-
-    await sairSite();
-    location.reload();
-  }
-
-  function mostrarChat(lista){
     chatBox.innerHTML = "";
-    lista.forEach(item => {
+    dados.chat.forEach(m => {
       let div = document.createElement("div");
       div.className = "msg";
-      let nomeExibido = item.nome === donoSala ? "👑 " + item.nome : item.nome;
-      div.innerHTML = "<strong>" + nomeExibido + ":</strong> " + item.msg;
+      let nomeExibido = m.nome === dados.dono ? "👑 " + m.nome : m.nome;
+
+      if (dados.diamantes.includes(m.nome)) {
+        nomeExibido = "💎 " + m.nome;
+      }
+
+      div.innerHTML = "<strong>" + nomeExibido + ":</strong> <span style='color:" + corMsg + ";'>" + m.msg + "</span>";
       chatBox.appendChild(div);
     });
     chatBox.scrollTop = chatBox.scrollHeight;
-    notifSound.currentTime = 0;
-    notifSound.play();
-  }
 
-  function carregarVideo(link){
-    videoArea.innerHTML = "";
-    if(link.includes("youtu")){
-      let id = "";
-      if(link.includes("watch?v=")){
-        id = link.split("watch?v=")[1].split("&")[0];
-      } else {
-        id = link.split("youtu.be/")[1].split("?")[0];
-      }
-      let iframe = document.createElement("iframe");
-      iframe.src = "https://www.youtube.com/embed/" + id;
-      iframe.allowFullscreen = true;
-      videoArea.appendChild(iframe);
-    } else {
-      let video = document.createElement("video");
-      video.src = link;
-      video.controls = true;
-      video.autoplay = true;
-      videoArea.appendChild(video);
+    if (dados.video && dados.video !== ultimoVideo) {
+      ultimoVideo = dados.video;
+      carregarVideo(dados.video);
     }
-  }
-</script>
 
+    totalMoedas.innerText = dados.moedas;
+  });
+}
+
+btnCriarSala.onclick = entrarOuCriar;
+btnEntrarSala.onclick = entrarOuCriar;
+
+btnEnviarMsg.onclick = async () => {
+  let texto = chatInput.value.trim();
+  if (!texto) return;
+  await updateDoc(salaRef, { chat: arrayUnion({ nome: nomeLocal, msg: texto }) });
+  chatInput.value = "";
+};
+
+btnEnviarVideo.onclick = async () => {
+  let link = videoLink.value.trim();
+  if (!link) return;
+  await updateDoc(salaRef, { video: link });
+  videoLink.value = "";
+};
+
+function carregarVideo(link) {
+  videoArea.innerHTML = "";
+  if (link.includes("watch?v=")) {
+    let id = link.split("watch?v=")[1].split("&")[0];
+    criarIframe(id);
+  } else if (link.includes("youtu.be/")) {
+    let id = link.split("youtu.be/")[1].split("?")[0];
+    criarIframe(id);
+  }
+}
+
+function criarIframe(id) {
+  let iframe = document.createElement("iframe");
+  iframe.src = "https://www.youtube.com/embed/" + id + "?autoplay=1";
+  iframe.allowFullscreen = true;
+  videoArea.appendChild(iframe);
+}
+
+window.sairSala = async function () {
+  await updateDoc(salaRef, {
+    online: arrayRemove(nomeLocal),
+    chat: arrayUnion({ nome: "Sistema", msg: nomeLocal + " saiu" })
+  });
+  location.reload();
+};
+
+/* LOJA */
+abrirLojaBtn.onclick = () => lojaBox.style.display = "block";
+fecharLojaBtn.onclick = () => lojaBox.style.display = "none";
+
+btnDiamante.onclick = async () => {
+  if (!salaRef) return alert("Entre na sala");
+  if (moedas < 50) return alert("Sem moedas");
+
+  moedas -= 50;
+  totalMoedas.innerText = moedas;
+
+  await updateDoc(salaRef, {
+    chat: arrayUnion({ nome: nomeLocal, msg: nomeLocal + " comprou um 💎 Diamante!" }),
+    moedas: moedas,
+    diamantes: arrayUnion(nomeLocal)
+  });
+};
+
+btnRosa.onclick = async () => {
+  if (moedas < 30) return alert("Sem moedas suficientes");
+
+  moedas -= 30;
+  corMsg = "pink";
+  totalMoedas.innerText = moedas;
+
+  await updateDoc(salaRef, {
+    chat: arrayUnion({ nome: nomeLocal, msg: nomeLocal + " comprou a cor rosa para suas mensagens!" }),
+    moedas: moedas
+  });
+};
+
+btnVermelho.onclick = async () => {
+  if (moedas < 40) return alert("Sem moedas suficientes");
+
+  moedas -= 40;
+  corMsg = "red";
+  totalMoedas.innerText = moedas;
+
+  await updateDoc(salaRef, {
+    chat: arrayUnion({ nome: nomeLocal, msg: nomeLocal + " comprou a cor vermelha para suas mensagens!" }),
+    moedas: moedas
+  });
+};
+
+</script>
 </body>
 </html>
