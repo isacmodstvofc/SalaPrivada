@@ -190,7 +190,7 @@
 
 <div class="loja-box" id="lojaBox">
   <h3>Lojinha</h3>
-  <div class="moedas">Moedas: <span id="totalMoedas">500</span></div>
+  <div class="moedas">Moedas: <span id="totalMoedas">500</span></div> <!-- Atualizado para 500 moedas -->
   <div class="item">
     <span>💎 Diamante</span>
     <button id="btnDiamante">50 Moedas</button>
@@ -227,7 +227,7 @@ const db = getFirestore(app);
 
 let salaRef = null;
 let nomeLocal = "";
-let moedas = 100;
+let moedas = 500; // Começa com 500 moedas
 let ultimoChat = 0;
 let ultimoVideo = "";
 let corMsg = "white";  // Cor padrão da mensagem
@@ -256,7 +256,7 @@ async function entrarOuCriar() {
 
   let snap = await getDoc(salaRef);
   if (!snap.exists()) {
-    await setDoc(salaRef, { video: "", chat: [], online: [], dono: nome, moedas: 100, diamantes: [] });
+    await setDoc(salaRef, { video: "", chat: [], online: [], dono: nome, moedas: 500, diamantes: [] });
   }
 
   await updateDoc(salaRef, {
