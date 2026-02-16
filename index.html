@@ -10,8 +10,8 @@
 
     body{
       margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:linear-gradient(180deg,#0f0f0f,#000);
+      font-family: 'Arial', Helvetica, sans-serif;
+      background: linear-gradient(180deg, #ff66b2, #ff3385); /* Fundo rosa romântico */
       color:white;
       display:flex;
       justify-content:center;
@@ -22,36 +22,24 @@
     .home{
       width:95%;
       max-width:500px;
-      background:#111;
+      background:#fff;
       padding:35px 25px;
       border-radius:20px;
       text-align:center;
-      box-shadow:0 0 40px rgba(0,0,0,0.7);
-    }
-
-    /* Animação para a logo descer e subir suavemente */
-    @keyframes animacaoLogo {
-      0% {
-        transform: translateY(0px);  /* Posição inicial */
-      }
-      50% {
-        transform: translateY(5px);  /* Desce um pouco */
-      }
-      100% {
-        transform: translateY(0px);  /* Sobe de volta para a posição inicial */
-      }
+      box-shadow:0 0 40px rgba(0,0,0,0.3);
+      background: #fce4ec; /* Rosa suave */
     }
 
     .logo{
       font-size:40px;
       font-weight:bold;
-      color:#ff0000;
+      color:#ff0066;
       margin-bottom:15px;
-      animation: animacaoLogo 1.5s ease-in-out infinite; /* Loop contínuo */
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
     }
 
     .sub{
-      color:#00ff88;
+      color:#ff3366;
       font-size:20px;
       margin-bottom:20px;
       font-weight:bold;
@@ -60,7 +48,7 @@
     .btn{
       width:100%;
       padding:16px;
-      background:#ff0000;
+      background:#ff0066;
       color:white;
       border:none;
       border-radius:15px;
@@ -68,15 +56,16 @@
       cursor:pointer;
       margin-bottom:20px;
       transition:0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .btn:hover{
-      background:#cc0000;
-      transform:scale(1.03);
+      background:#cc0052;
+      transform:scale(1.05);
     }
 
     .global-online{
-      color:#00ff88;
+      color:#ffccff;
       font-size:15px;
       margin-top:10px;
     }
@@ -88,6 +77,7 @@
       overflow:hidden;
       position:relative;
       margin-bottom:20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .video-wrapper{
@@ -107,7 +97,6 @@
       object-fit:cover;
     }
 
-    /* Estilo para os botões lado a lado */
     .botao-container {
       display: flex;
       justify-content: space-between;
@@ -115,7 +104,7 @@
     }
 
     .botao-container .btn {
-      width: 48%; /* Torna os botões menores e com espaço entre eles */
+      width: 48%;
     }
 
     /* ===== LOGIN E SALA ===== */
@@ -136,7 +125,7 @@
       padding:14px;
       border:none;
       border-radius:10px;
-      background:#2a2a2a;
+      background:#fce4ec; /* Rosa claro */
       color:white;
       font-size:14px;
       margin-bottom:12px;
@@ -147,7 +136,7 @@
     }
 
     .chat{
-      background:#111;
+      background:#ff99cc;
       border-radius:12px;
       padding:15px;
       max-height:280px;
@@ -159,7 +148,7 @@
     #chatBox{flex:1;overflow-y:auto;margin-bottom:10px;}
 
     .msg{
-      background:#222;
+      background:#ff66b2;
       padding:8px 12px;
       border-radius:8px;
       margin-bottom:8px;
@@ -167,17 +156,18 @@
       word-break:break-word;
     }
 
-    .msg strong{color:#e50914;}
+    .msg strong{color:#ff0066;}
 
     .btn-sair{
       width:100%;
       padding:12px;
-      background:#444;
+      background:#ff0066;
       color:white;
       border:none;
       border-radius:10px;
       font-size:14px;
       cursor:pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     .header-sala{
@@ -185,7 +175,6 @@
       margin-bottom: 20px;
     }
 
-    /* Estilo para a coroa antes do nome */
     .header-sala .nome-com-coroa{
       font-size: 28px;
       display: flex;
@@ -213,7 +202,7 @@
     }
 
     .creator-info a{
-      color: #800080; /* Cor roxa */
+      color: #800080;
       text-decoration: none;
     }
 
@@ -278,11 +267,11 @@
   <div class="global-online" id="totalOnlineGlobal">
     Usuários no site: 0
   </div>
-  
+
   <!-- Vídeo na tela inicial -->
   <div class="video-box">
     <div class="video-wrapper" id="videoAreaHome">
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/sX5R9yC27Bk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe width="560" height="315" id="homeVideo" src="https://youtu.be/CVz492o65MU?si=iFJYCvzoJHj3t6pc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 
@@ -323,7 +312,7 @@
     <div class="video-wrapper" id="videoAreaSala"></div> <!-- Vídeo exclusivo para a sala -->
   </div>
 
-  <h3>Chat</h3>
+    <h3>Chat</h3>
   <div class="chat">
     <div id="chatBox"></div>
     <input type="text" id="chatInput" placeholder="Mensagem">
@@ -422,7 +411,6 @@
 
       onlineInfo.innerText = "Online na sala: " + (dados.online ? dados.online.length : 0);
 
-      // Atualiza o nome e a coroa
       let nomeSalaElement = document.getElementById("nomeSala");
       nomeSalaElement.innerHTML = donoSala;
 
@@ -513,7 +501,6 @@
     }
   }
 
-  // Função de minimizar o chat
   const btnMinimizarChat = document.getElementById("btnMinimizarChat");
   const btnAbrirChat = document.getElementById("btnAbrirChat");
 
