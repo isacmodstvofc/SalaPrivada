@@ -303,10 +303,10 @@ async function entrarOuCriar() {
       let corTexto = "white";  // Cor padrão
 
       // Aplica a cor das mensagens se alguém comprou
-      if (dados.corRosa) {
-        corTexto = "pink";
-      } else if (dados.corVermelha) {
-        corTexto = "red";
+      if (dados[m.nome + "_corRosa"]) {
+        corTexto = "pink";  // Cor rosa para quem comprou
+      } else if (dados[m.nome + "_corVermelha"]) {
+        corTexto = "red";  // Cor vermelha para quem comprou
       }
 
       if (dados.diamantes.includes(m.nome)) {
@@ -398,7 +398,7 @@ btnRosa.onclick = async () => {
   await updateDoc(salaRef, {
     chat: arrayUnion({ nome: nomeLocal, msg: nomeLocal + " comprou a cor rosa para suas mensagens!" }),
     moedas: moedas,
-    corRosa: true // Marca a compra da cor rosa
+    [nomeLocal + "_corRosa"]: true // Marca a compra da cor rosa para o usuário específico
   });
 };
 
@@ -412,7 +412,7 @@ btnVermelho.onclick = async () => {
   await updateDoc(salaRef, {
     chat: arrayUnion({ nome: nomeLocal, msg: nomeLocal + " comprou a cor vermelha para suas mensagens!" }),
     moedas: moedas,
-    corVermelha: true // Marca a compra da cor vermelha
+    [nomeLocal + "_corVermelha"]: true // Marca a compra da cor vermelha para o usuário específico
   });
 };
 
