@@ -205,7 +205,7 @@
 
 <div class="loja-box" id="lojaBox">
   <h3>Lojinha</h3>
-  <div class="moedas">Moedas: <span id="totalMoedas">500</span></div> <!-- Atualizado para 500 moedas -->
+  <div class="moedas">Moedas: <span id="totalMoedas">500</span></div>
   <div class="item">
     <span>💎 Diamante</span>
     <button id="btnDiamante">50 Moedas</button>
@@ -242,7 +242,7 @@ const db = getFirestore(app);
 
 let salaRef = null;
 let nomeLocal = "";
-let moedas = 500; // Começa com 500 moedas
+let moedas = 500;
 let ultimoChat = 0;
 let ultimoVideo = "";
 let corMsg = "white";  // Cor padrão da mensagem
@@ -271,7 +271,7 @@ async function entrarOuCriar() {
 
   let snap = await getDoc(salaRef);
   if (!snap.exists()) {
-    await setDoc(salaRef, { video: "", chat: [], online: [], dono: nome, moedas: 500, diamantes: [] });
+    await setDoc(salaRef, { video: "", chat: [], online: [], dono: nome, moedas: 500, diamantes: [], corRosa: false, corVermelha: false });
   }
 
   await updateDoc(salaRef, {
@@ -300,13 +300,19 @@ async function entrarOuCriar() {
       div.className = "msg";
 
       let nomeExibido = m.nome === dados.dono ? "👑 " + m.nome : m.nome;
-      let corTexto = corMsg;  // Cor das mensagens alteradas conforme a compra
+      let corTexto = "white";  // Cor padrão
+
+      // Aplica a cor das mensagens se alguém comprou
+      if (dados.corRosa) {
+        corTexto = "pink";
+      } else if (dados.corVermelha) {
+        corTexto = "red";
+      }
 
       if (dados.diamantes.includes(m.nome)) {
         nomeExibido = "💎 " + m.nome;
       }
 
-      // O nome fica branco e apenas o texto da mensagem muda de cor
       div.innerHTML = "<strong style='color:white;'>" + nomeExibido + ":</strong> <span style='color:" + corTexto + ";'>" + m.msg + "</span>";
       chatBox.appendChild(div);
     });
@@ -387,12 +393,12 @@ btnRosa.onclick = async () => {
   if (moedas < 30) return alert("Sem moedas suficientes");
 
   moedas -= 30;
-  corMsg = "pink";
   totalMoedas.innerText = moedas;
 
   await updateDoc(salaRef, {
     chat: arrayUnion({ nome: nomeLocal, msg: nomeLocal + " comprou a cor rosa para suas mensagens!" }),
-    moedas: moedas
+    moedas: moedas,
+    corRosa: true // Marca a compra da cor rosa
   });
 };
 
@@ -401,12 +407,12 @@ btnVermelho.onclick = async () => {
   if (moedas < 40) return alert("Sem moedas suficientes");
 
   moedas -= 40;
-  corMsg = "red";
   totalMoedas.innerText = moedas;
 
   await updateDoc(salaRef, {
     chat: arrayUnion({ nome: nomeLocal, msg: nomeLocal + " comprou a cor vermelha para suas mensagens!" }),
-    moedas: moedas
+    moedas: moedas,
+    corVermelha: true // Marca a compra da cor vermelha
   });
 };
 
