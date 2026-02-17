@@ -298,13 +298,16 @@ async function entrarOuCriar() {
     dados.chat.forEach(m => {
       let div = document.createElement("div");
       div.className = "msg";
+
       let nomeExibido = m.nome === dados.dono ? "👑 " + m.nome : m.nome;
+      let corTexto = corMsg;  // Cor das mensagens alteradas conforme a compra
 
       if (dados.diamantes.includes(m.nome)) {
         nomeExibido = "💎 " + m.nome;
       }
 
-      div.innerHTML = "<strong>" + nomeExibido + ":</strong> <span style='color:" + corMsg + ";'>" + m.msg + "</span>";
+      // O nome fica branco e apenas o texto da mensagem muda de cor
+      div.innerHTML = "<strong style='color:white;'>" + nomeExibido + ":</strong> <span style='color:" + corTexto + ";'>" + m.msg + "</span>";
       chatBox.appendChild(div);
     });
     chatBox.scrollTop = chatBox.scrollHeight;
@@ -380,6 +383,7 @@ btnDiamante.onclick = async () => {
 };
 
 btnRosa.onclick = async () => {
+  if (!salaRef) return alert("Entre na sala");
   if (moedas < 30) return alert("Sem moedas suficientes");
 
   moedas -= 30;
@@ -393,6 +397,7 @@ btnRosa.onclick = async () => {
 };
 
 btnVermelho.onclick = async () => {
+  if (!salaRef) return alert("Entre na sala");
   if (moedas < 40) return alert("Sem moedas suficientes");
 
   moedas -= 40;
