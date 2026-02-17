@@ -340,6 +340,15 @@ btnEnviarMsg.onclick = async () => {
 btnEnviarVideo.onclick = async () => {
   let link = videoLink.value.trim();
   if (!link) return;
+
+  // Verificar se o usuário é o dono da sala
+  let snap = await getDoc(salaRef);
+  let dados = snap.data();
+  if (dados.dono !== nomeLocal) {
+    alert("Somente o dono pode enviar o vídeo!");
+    return;
+  }
+
   await updateDoc(salaRef, { video: link });
   videoLink.value = "";
 };
